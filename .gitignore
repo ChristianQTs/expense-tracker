@@ -26,3 +26,5 @@ dist-ssr
 *.d.ts
 *.d.ts.map
 *.js.map
+#unignore fastifyRequest Instance:
+!fastify.d.ts
