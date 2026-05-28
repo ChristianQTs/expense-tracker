@@ -6,7 +6,7 @@ declare module 'fastify' {
         customGenerateToken : (payload : object) => string
     }
     interface FastifyRequest {
-        user!: {
+        user?: {
             id : number
         }
     }
