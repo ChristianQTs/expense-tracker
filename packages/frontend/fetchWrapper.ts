@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8001/users'
+const BASE_URL = 'https://expense-tracker-production-776a.up.railway.app:8001/users'
 interface Options extends Omit<RequestInit, 'body'> {
     body?:any
 }
