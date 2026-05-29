@@ -27,8 +27,8 @@ export async function login(request: FastifyRequest<{Body : AuthBody}>, reply : 
         const token = jwt.sign({ id: user.id }, JWT_KEY, { expiresIn: '1h' })
         reply.setCookie('token', token, {
             httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
+            secure: true,
+            sameSite: 'none',
             path: '/',
             maxAge : 1800
         })
