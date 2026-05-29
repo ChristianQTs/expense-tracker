@@ -30,6 +30,7 @@ export async function login(request: FastifyRequest<{Body : AuthBody}>, reply : 
             secure: true,
             sameSite: 'none',
             path: '/',
+            partitioned: true,
             maxAge : 1800
         })
 
