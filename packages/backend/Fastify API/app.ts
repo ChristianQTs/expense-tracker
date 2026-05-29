@@ -9,7 +9,7 @@ import { authRoutes } from './authRoutes.js'
 import 'dotenv/config'
 const port : number = process.env.PORT ? parseInt(process.env.PORT, 10) : 8001
 const app = Fastify({ logger: false })
-await app.register(cors, { origin: 'https://expense-tracker-frontend-wine-theta.vercel.app/', credentials : true, methods: ['GET', 'POST', 'PATCH', 'DELETE'] })
+await app.register(cors, { origin: 'https://expense-tracker-frontend-wine-theta.vercel.app', credentials : true, methods: ['GET', 'POST', 'PATCH', 'DELETE'] })
 await app.register(cookie)
 //register expenses plugin
 app.register(expensesRoutes, { prefix: '/users/expenses' })
