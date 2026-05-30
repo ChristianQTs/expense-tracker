@@ -1,9 +1,9 @@
-const BASE_URL = `${import.meta.env.VITE_API_URL}/users` || 'http://localhost:5173'
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001'
 interface Options extends Omit<RequestInit, 'body'> {
     body?:any
 }
-export async function fetchApi<T>(path: string, { method = 'GET', body, headers = {} }: Options = {}) :Promise<T> {
-    const URL = `${BASE_URL}${path}`
+export async function fetchApi<T>(path: string, { method = 'GET', body, headers = {} }: Options = {}): Promise<T> {
+    const URL = `${BASE_URL}/users${path}`
     const hasBody = body !== null && body !== undefined
     const res = await fetch(URL, {
         method,
@@ -12,7 +12,7 @@ export async function fetchApi<T>(path: string, { method = 'GET', body, headers 
         credentials : 'include'
     })
 
-
+    console.log(res)
     const json = await res.json()
 
     if (!res.ok) {
