@@ -28,3 +28,4 @@ dist-ssr
 *.js.map
 #unignore fastifyRequest Instance:
 !fastify.d.ts
+!vite.config.js
