@@ -9,7 +9,7 @@ export function ExpensesList({ expenses, onDelete, onUpdate }: ListProps) {
 
     return (expenses.length === 0 ? (<h3 className='font-bold text-xl text-center p-6'>No expense Yet</h3>) :      
         (
-            <div className="flex items-center justify-center gap-2.5">
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
                 <ul className="divide-y w-[700px]">
             {
                 expenses.map((e) =>

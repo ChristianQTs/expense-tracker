@@ -48,7 +48,7 @@ export function ExpenseItem({ expense , onDelete, onUpdate } : ExpenseItemProps)
                     <div className='justify-self-start'>
                         <Button onClick={() => setIsEditing(prev => !prev)}>{isEditing ? 'Close edit' : 'Edit'}</Button>
                     </div>
-                    <div className='flex items-center justify-center gap-x-3 text-sm tracking-wide'>
+                    <div className='flex flex-wrap items-center justify-center gap-x-3 text-sm tracking-wide'>
                         <span className='font-semibold text-gray-800 text-base min-w-[100px]'>{expense.name} </span>
                         <span className='text-gray-300 font-light'>|</span>
                         <span className='font-mono font-medium px-2.5 py-0.5 bg-emerald-50 text-emerald-700 rounded border border-emerald-100 min-w-[75px]'>{expense.amount}  &euro; </span>
@@ -67,9 +67,9 @@ export function ExpenseItem({ expense , onDelete, onUpdate } : ExpenseItemProps)
                     <div className='justify-self-start'>
                         <Button onClick={toggleEditing}>{isEditing ? 'Close edit' : 'Edit'}</Button>
                     </div>
-                    <div className='flex items-center justify-center gap-x-3 text-sm'>
+                    <div className='flex flex-wrap items-center justify-center gap-x-3 text-sm'>
                         <input className={`${inputStyle} w-36 px-2 py-1 text-center font-medium border-gray-300 focus:border-blue-400 shadow-sm`} type='text' value={editedName} onChange={e => setEditedName(e.target.value)} />
-                        <div className="flex items-center relative">
+                        <div className="flex flex-wrap items-center relative">
                             <input className={`${inputStyle} w-24 pl-2 pr-6 py-1 text-right font-mono font-medium border-gray-300 focus:border-emerald-400 shadow-sm`} type='number' value={editedAmount === 0?'':editedAmount} onChange={e => setEditedAmount(Number(e.target.value))} />
                             <span className='absolute right-2 text-gray-400 font-medium'>&euro;</span>
                         </div>

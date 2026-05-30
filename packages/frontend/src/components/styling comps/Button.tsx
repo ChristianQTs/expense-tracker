@@ -5,10 +5,11 @@ interface ButtonProps {
     styleType?: Variant;
     type?: "button" | "submit" | "reset";
     isDisabled?: boolean;
-    title?:string
+    title?: string;
+    className?: string
 }
 export const inputStyle = 'bg-white border border-blue-600 rounded-md px-0.5 py-0.2 shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200'
-export function Button({ children, onClick, styleType = 'primary',type='button', isDisabled=false, title }: ButtonProps) {
+export function Button({ children, onClick, styleType = 'primary',type='button',className='' , isDisabled=false, title }: ButtonProps) {
     const baseStyle = 'transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
     const variants :Record<Variant, string> = {
         primary: 'px-3 py-0.5 rounded-full font-semibold bg-blue-600 text-white hover:bg-blue-700 shadow-lg',
@@ -17,7 +18,7 @@ export function Button({ children, onClick, styleType = 'primary',type='button',
 
     }
     return (
-        <button type={type} onClick={onClick} disabled={isDisabled} className={`${baseStyle} ${variants[styleType]}`} title={title}>
+        <button type={type} onClick={onClick} disabled={isDisabled} className={`${baseStyle} ${variants[styleType]} ${className}`} title={title}>
             {children}
         </button>
     )

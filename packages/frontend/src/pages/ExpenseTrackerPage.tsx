@@ -90,8 +90,9 @@ export function ExpenseTrackerPage() {
             </div>
             <div>
                 <div className='flex items-center justify-center gap-2.5'>
-                    <AddExpense onAdd={handleAddExpense} />
-                    <Button onClick={() => setShowBudget(prev => !prev)}>{`${showBudget ? 'Hide' : 'Show'} Budget Options`}</Button>
+                    <AddExpense onAdd={handleAddExpense}>
+                        <Button className='flex-1 md:w-auto h-fit whitespace-nowrap max-md:px-2 max-md:py-0.5 max-md:text-s max-md:font-medium' onClick={() => setShowBudget(prev => !prev)}>{`${showBudget ? 'Hide' : 'Show'} Budget`}</Button>
+                    </AddExpense>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
