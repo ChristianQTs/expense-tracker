@@ -11,8 +11,6 @@ export async function fetchApi<T>(path: string, { method = 'GET', body, headers 
         ...(hasBody && { body: JSON.stringify(body) }),
         credentials : 'include'
     })
-
-    console.log(res)
     const json = await res.json()
 
     if (!res.ok) {
