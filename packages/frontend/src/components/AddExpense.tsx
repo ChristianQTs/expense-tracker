@@ -27,7 +27,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
 
     return (
         <div className='py-6'>
-            <form className='flex flex-col md:flex-row md:flex-wrap gap-4 w-full items-end' onSubmit={handleAdd}>
+            <form className='flex flex-col md:flex-row md:flex-wrap gap-4 w-max items-end bg-blue-80/50 shadow-md border-blue-100 p-3 font-medium' onSubmit={handleAdd}>
                 <div className='flex items-center gap-2 w-full md:w-auto'>
                     <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='name'>Name: </label>
                     <input className={inputStyle} id='name' name='name' type='text' value={nameInput} onChange={e => setNameInput(e.target.value)} />

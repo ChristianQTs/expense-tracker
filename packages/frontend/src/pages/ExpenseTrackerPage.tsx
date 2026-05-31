@@ -13,14 +13,14 @@ export function ExpenseTrackerPage() {
     const [error, setError] = useState<string>('')
     const [expenses, setExpenses] = useState<ClientExpense[]>([])
     const [filter, setFilter] = useState<string>('all')
-    const isFiltered:boolean = filter !== 'all'
-    const filteredExpenses : ClientExpense[]= isFiltered ? expenses.filter(e => e.category === filter) : expenses
+    const isFiltered: boolean = filter !== 'all'
+    const filteredExpenses: ClientExpense[] = isFiltered ? expenses.filter(e => e.category === filter) : expenses
     const [showBudget, setShowBudget] = useState<boolean>(false)
-    const { user, updateUser, logout } = useContext(AuthContext)! 
-    const navigate = useNavigate() 
+    const { user, updateUser, logout } = useContext(AuthContext)!
+    const navigate = useNavigate()
 
     useEffect(() => {
-        if(!user) return setExpenses([])
+        if (!user) return setExpenses([])
         getExpenses().then(expenses => { setExpenses(expenses) }).catch(err => console.error(err))
     }, [user])
 
@@ -28,27 +28,27 @@ export function ExpenseTrackerPage() {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         if (isFiltered && filteredExpenses.length === 0) setFilter('all')
     }, [filteredExpenses, isFiltered])
-    
 
-    const handleDeleteExpense = (id:number) => {
+
+    const handleDeleteExpense = (id: number) => {
         deleteExpense(id).then(expenseId => {
             if (!expenseId) return
             setExpenses(prev => prev.filter(e => e.id !== expenseId))
         })
     }
 
-    const handleAddExpense = async ({ name, amount, category } : AddBody) => {
+    const handleAddExpense = async ({ name, amount, category }: AddBody) => {
         setError('')
         try {
             const res = await addExpense({ name, amount, category })
             setExpenses(prev => [...prev, res])
-        } catch (err :any) {
+        } catch (err: any) {
             setError(err.message)
 
         }
     }
 
-    const handleUpdateExpense = (expenseId : number, updates : UpdateBody) => {
+    const handleUpdateExpense = (expenseId: number, updates: UpdateBody) => {
         setError('')
         updateExpense(updates, expenseId).then(updatedExpense => {
             if (!updatedExpense) return
@@ -57,22 +57,22 @@ export function ExpenseTrackerPage() {
     }
 
     const handleAddBudget = (value: number) => {
-        if(!user) return
+        if (!user) return
         setUserBudget(value).then(budget => {
-            updateUser({...user, budget})
+            updateUser({ ...user, budget })
         })
     }
 
     const handleDeleteBudget = () => {
-        if(!user) return
+        if (!user) return
         deleteUserBudget().then(success => {
-            if(!success) return
-            updateUser({...user, budget:null})
+            if (!success) return
+            updateUser({ ...user, budget: null })
         })
     }
 
-    const handleLogout = async() => {
-        if(!user) return
+    const handleLogout = async () => {
+        if (!user) return
         await logout()
         navigate('/login')
     }
@@ -82,31 +82,63 @@ export function ExpenseTrackerPage() {
     const categoryPercentage = totalExpense !== 0 ? Math.floor((totalCategory * 100) / totalExpense) : 0
 
     return (
-        <div className='min-h-screen bg-mist-100 flex flex-col '>
+        <div className='min-h-screen bg-mist-100 flex flex-col'>
             <h1 className='px-5 py-7 flex justify-center text-black text-4xl font-bold'>Expenses Tracker</h1>
+
             <div className='flex items-center justify-center gap-2.5'>
                 <h2>Welcome <strong>{user?.username}</strong>!</h2>
                 <Button onClick={handleLogout} styleType='auth'>Log out</Button>
             </div>
-            <div>
-                <div className='flex items-center justify-center gap-2.5'>
-                    <AddExpense onAdd={handleAddExpense}>
-                        <Button className='flex-1 md:w-auto h-fit whitespace-nowrap max-md:px-2 max-md:py-0.5 max-md:text-s max-md:font-medium' onClick={() => setShowBudget(prev => !prev)}>{`${showBudget ? 'Hide' : 'Show'} Budget`}</Button>
-                    </AddExpense>
+
+            <div className='flex items-center justify-center gap-2.5'>
+                <AddExpense onAdd={handleAddExpense}>
+                    <Button className='flex-1 md:w-auto h-fit whitespace-nowrap max-md:px-2 max-md:py-0.5 max-md:text-s max-md:font-medium' onClick={() => setShowBudget(prev => !prev)}>
+                        {`${showBudget ? 'Hide' : 'Show'} Budget`}
+                    </Button>
+                </AddExpense>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <Button onClick={() => setError('')}>Ok</Button>}
+            </div>
+
+            {showBudget && <Budget total={totalExpense} user={user!} onSetBudget={handleAddBudget} onDeleteBudget={handleDeleteBudget} />}
+
+            {expenses.length !== 0 && <Filter expenses={expenses} filter={filter} setFilter={setFilter} />}
+
+            <ExpensesList expenses={filteredExpenses} onDelete={handleDeleteExpense} onUpdate={handleUpdateExpense} />
+
+            {/* Total and Filtering Dashboard Box */}
+            <div className='flex flex-col md:flex-row p-4 items-stretch md:items-center justify-center gap-4 md:gap-6 bg-blue-50/80 border border-blue-100 rounded-lg text-sm md:text-base shadow-sm w-max max-w-full mx-auto font-medium text-blue-900'>
+
+                {/* 1. Global Total */}
+                <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
+                    <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>Total: </span>
+                    <span className='font-bold text-base md:text-lg text-black'>{totalExpense} &euro;</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {error && <Button onClick={() => setError('')}>Ok</Button>}
-                </div>
-                    {showBudget && <Budget total={totalExpense} user={user!} onSetBudget={handleAddBudget} onDeleteBudget={handleDeleteBudget} />}
-                {(expenses.length !== 0 && <Filter expenses={expenses} filter={filter} setFilter={setFilter} />)}
-                    <ExpensesList expenses={filteredExpenses} onDelete={handleDeleteExpense} onUpdate={handleUpdateExpense} />
-                <section className='flex items-center justify-center gap-2.5 bg-mist-200'>
-                    <span><strong>Total: </strong>{totalExpense} &euro;</span>
-                    {(isFiltered && <span> - <strong>{filter} total: </strong>{totalCategory} &euro;</span>)}
-                    {(isFiltered && <span> - <strong>{filter}</strong> % of total expenses: {categoryPercentage} %</span>) }
-                </section>
-                </div>              
+                {isFiltered && (
+                    <>
+                        <span className="hidden md:inline text-blue-300">|</span>
+                        <hr className="block md:hidden border-blue-100/70 my-0.5" />
+
+                        {/* 2. Category Total */}
+                        <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
+                            <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{filter} total: </span>
+                            <span className='text-black font-bold text-base md:text-lg'>{totalCategory} &euro;</span>
+                        </div>
+
+                        <span className="hidden md:inline text-blue-300">|</span>
+                        <hr className="block md:hidden border-blue-100/70 my-0.5" />
+
+                        {/* 3. Percentage */}
+                        <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
+                            <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{filter} % of total: </span>
+                            <span className='text-black font-bold text-base md:text-lg'>{categoryPercentage} %</span>
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     )
 }

@@ -29,7 +29,7 @@ export function Budget({ total, user, onSetBudget, onDeleteBudget }: BudgetProps
     const remaining = budget - total
 
     return (
-        <div className='py-6 px-3 w-full flex flex-col gap-6 items-center'>
+        <div className='p-3 w-full flex flex-col gap-6 items-center'>
 
             <form
                 className='flex flex-col md:flex-row md:flex-wrap gap-4 w-full justify-center items-end'
