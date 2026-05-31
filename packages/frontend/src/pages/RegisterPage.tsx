@@ -41,10 +41,10 @@ export function RegisterPage() {
             <div className='w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 md:p-8 shadow-md'>
                 <form className='flex flex-col gap-4' onSubmit={handleRegister}>
                     <div className='flex items-center gap-2 w-full justify-center'>
-                        <label className='w-36 shrink-0 md:w-32 font-medium text-sm md:text-base' htmlFor='username'>Username: </label>
+                        <label className='w-30 shrink-0 md:w-32 font-medium text-sm md:text-base' htmlFor='username'>Username: </label>
                         <input
                             id='username'
-                            className={`${inputStyle} flex-1`}
+                            className={`${inputStyle} flex-1 w-full`}
                             type='text'
                             required
                             value={username}
@@ -52,21 +52,21 @@ export function RegisterPage() {
                         />
                     </div>
                     <div className='flex items-center gap-2 w-full justify-center'>
-                        <label className='w-36 shrink-0 md:w-32 font-medium text-sm md:text-base' htmlFor='password'>Password: </label>
+                        <label className='w-30 shrink-0 md:w-32 font-medium text-sm md:text-base' htmlFor='password'>Password: </label>
                         <input
                             id='password'
-                            className={`${inputStyle} flex-1`}
+                            className={`${inputStyle} flex-1 w-full`}
                             type='password'
                             required
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
                     </div>
-                    <div className='flex items-center gap-2 w-full justify-center'>
-                        <label className='w-36 shrink-0 md:w-32 font-medium text-sm md:text-base' htmlFor='confirmPassword'>Confirm Password: </label>
+                    <div className='flex items-center gap-2 w-full justify-start'>
+                        <label className='w-30 shrink-0 md:w-32 font-medium text-sm md:text-base' htmlFor='confirmPassword'>Confirm Password: </label>
                         <input
                             id='confirmPassword'
-                            className={`${inputStyle} flex-1`}
+                            className={`${inputStyle} flex-1 w-full`}
                             type='password'
                             required
                             value={confirmPassword}
