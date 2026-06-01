@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { createContext, useState } from "react";
 import type { AuthenticatedUser } from '@expense-tracker/shared';
-import { makeLoginRequest, makeRegisterRequest, makeLogoutRequest } from '../requests/authRequests.js';
+import { makeLoginRequest, makeRegisterRequest } from '../requests/authRequests.js';
 
 interface AuthContextType {
     user: AuthenticatedUser | null;
@@ -31,6 +31,7 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
                 setUser(res.user)
                 localStorage.setItem('user', JSON.stringify(res.user))
+                localStorage.setItem('token',res.token)
                 return { success: true }
 
         } catch (err:any) {
@@ -42,7 +43,7 @@ export function AuthProvider({ children }:AuthProviderProps) {
 
         try {
 
-            const res = await makeRegisterRequest(username, password)
+            await makeRegisterRequest(username, password)
             return { success: true }
         }
         catch (err:any) {
@@ -51,17 +52,14 @@ export function AuthProvider({ children }:AuthProviderProps) {
     }
 
     const logout = async () => {
-
         try {
-            await makeLogoutRequest()
+            localStorage.removeItem('user')
+            localStorage.removeItem('token')
+            setUser(null)
         } catch (err) {
             console.error('Logout failed, clearing local state...', err)
-        } finally {
-            localStorage.removeItem('user')
-            setUser(null)
         }
     }
-
     const updateUser =(newUser:AuthenticatedUser) => {
 
         localStorage.setItem('user', JSON.stringify(newUser))

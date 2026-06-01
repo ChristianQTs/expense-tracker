@@ -9,7 +9,8 @@ export interface RegisterResponse {
     user: Pick<users, 'id' | 'username'>
 }
 export interface LoginResponse {
-    user: AuthenticatedUser
+    user: AuthenticatedUser,
+    token:string
 }
 
 

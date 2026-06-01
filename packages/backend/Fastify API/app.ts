@@ -2,7 +2,6 @@
 import Fastify from 'fastify'
 import type { FastifyError } from 'fastify'
 import cors from '@fastify/cors'
-import cookie from '@fastify/cookie'
 import { expensesRoutes } from './expensesRoutes.js'
 import { budgetRoutes } from './budgetRoutes.js'
 import { authRoutes } from './authRoutes.js'
@@ -31,7 +30,6 @@ await app.register(cors, {
         // Block anything else
         cb(new Error("Not allowed by CORS"), false)
     }, credentials : true, methods: ['GET', 'POST', 'PATCH', 'DELETE'] })
-await app.register(cookie)
 //register expenses plugin
 app.register(expensesRoutes, { prefix: '/users/expenses' })
 app.register(budgetRoutes, { prefix: '/users/budget' })

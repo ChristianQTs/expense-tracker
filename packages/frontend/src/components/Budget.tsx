@@ -41,7 +41,7 @@ export function Budget({ total, user, onSetBudget, onDeleteBudget }: BudgetProps
                         Set a monthly budget:
                     </label>
                     <input
-                        className={`${inputStyle} flex-1`}
+                        className={`${inputStyle} flex-1 w-full`}
                         id='budget'
                         type='number'
                         value={budgetInput === 0 ? '' : budgetInput}

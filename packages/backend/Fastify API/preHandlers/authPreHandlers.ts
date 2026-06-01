@@ -5,8 +5,11 @@ import 'dotenv/config'
 const JWT_SECRET : string = String(process.env.JWT_SECRET)
 export async function authenticateUser(request: FastifyRequest, reply: FastifyReply) {
 
-    const token = request.cookies.token
-
+    const authHeader = request.headers['authorization']
+    if (!authHeader) {
+        return reply.code(401).send({ message: 'Access Denied: No Token Provided' });
+    }
+    const token = authHeader.split(' ')[1]
     if (!token) return reply.code(401).send({ message: 'Missing token' })
 
     try {
