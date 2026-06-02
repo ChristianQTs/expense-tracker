@@ -31,12 +31,8 @@ await app.register(cors, {
         cb(new Error("Not allowed by CORS"), false)
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    preflight: true,
-    hideOptionsRoute:false,
-    maxAge: 86400,
-    preflightContinue:false,
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+
 })
 //register expenses plugin
 app.register(expensesRoutes, { prefix: '/users/expenses' })

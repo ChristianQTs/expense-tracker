@@ -22,6 +22,7 @@ export async function addExpense({ name, amount, category }: AddBody): Promise<C
 }
 
 export async function deleteExpense(expenseId:number):Promise<number> {
+    //NOTE: adding expenseId to the URL will make it dynamic and cause the browser to send a new Preflight for every subsequent DELETE request. Moving the ID to request BODY will solve this
 
     const response = await fetchApi<number>(`/expenses/${expenseId}`, {
         method: 'DELETE',
@@ -29,7 +30,7 @@ export async function deleteExpense(expenseId:number):Promise<number> {
     return response
 }
 
-export async function updateExpense(updates: UpdateBody, expenseId: number):Promise<ClientExpense> {
+export async function updateExpense(updates: UpdateBody, expenseId: number): Promise<ClientExpense> {
 
     const response = await fetchApi<ClientExpense>(`/expenses/${expenseId}`, {
         method: 'PATCH',
