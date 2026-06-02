@@ -30,11 +30,15 @@ export function ExpenseTrackerPage() {
     }, [filteredExpenses, isFiltered])
 
 
-    const handleDeleteExpense = (id: number) => {
-        deleteExpense(id).then(expenseId => {
+    const handleDeleteExpense = async (id: number) => {
+        setError('')
+        try {
+            const expenseId = await deleteExpense(id)
             if (!expenseId) return
             setExpenses(prev => prev.filter(e => e.id !== expenseId))
-        })
+        } catch (err: any) {
+            setError(err.message)
+        }
     }
 
     const handleAddExpense = async ({ name, amount, category }: AddBody) => {
@@ -48,27 +52,35 @@ export function ExpenseTrackerPage() {
         }
     }
 
-    const handleUpdateExpense = (expenseId: number, updates: UpdateBody) => {
+    const handleUpdateExpense = async (expenseId: number, updates: UpdateBody) => {
         setError('')
-        updateExpense(updates, expenseId).then(updatedExpense => {
-            if (!updatedExpense) return
+        try {
+            const updatedExpense = await updateExpense(updates, expenseId)
             setExpenses(prev => prev.map(e => e.id === updatedExpense.id ? updatedExpense : e))
-        })
+        } catch (err: any) {
+            setError(err.message)
+        }
     }
 
-    const handleAddBudget = (value: number) => {
+    const handleAddBudget = async (value: number) => {
         if (!user) return
-        setUserBudget(value).then(budget => {
+        try {
+            const budget = await setUserBudget(value)
             updateUser({ ...user, budget })
-        })
+        } catch (err: any) {
+            setError(err.message)
+        }
     }
 
-    const handleDeleteBudget = () => {
+    const handleDeleteBudget = async () => {
         if (!user) return
-        deleteUserBudget().then(success => {
+        try {
+            const success = await deleteUserBudget()
             if (!success) return
             updateUser({ ...user, budget: null })
-        })
+        } catch (err: any) {
+            setError(err.message)
+        }
     }
 
     const handleLogout = async () => {
