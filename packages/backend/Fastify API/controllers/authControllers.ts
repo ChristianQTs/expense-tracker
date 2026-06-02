@@ -42,10 +42,6 @@ export async function register(request: FastifyRequest<{Body : AuthBody}>, reply
     try {
         const { username, password } = request.body
 
-        const alreadyUser = await prisma.users.findUnique({ where: { username } })
-
-        if (alreadyUser) return reply.code(409).send({ message: 'Username not available' })
-
         const hashed_password = await bcrypt.hash(password, 10)
 
         const newUser : users = await prisma.users.create({
@@ -56,9 +52,9 @@ export async function register(request: FastifyRequest<{Body : AuthBody}>, reply
         })
 
         return {id : newUser.id, username : newUser.username}
-    } catch (err) {
-
+    } catch (err: any) {
         console.error(err)
+        if (err.code === 'P2002') return reply.code(409).send({ message: 'Username not available' })
         return reply.code(500).send({ message: 'Internal Server Error' })
 
     }
