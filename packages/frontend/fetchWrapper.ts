@@ -8,7 +8,11 @@ export async function fetchApi<T>(path: string, { method = 'GET', body, headers 
     const token = localStorage.getItem('token')
     const res = await fetch(URL, {
         method,
-        headers: { ...(hasBody && { 'Content-Type': 'application/json' }), ...(token && {'Authorization': `Bearer ${token}`}),...headers },
+        headers: {
+            ...(hasBody && { 'Content-Type': 'application/json' }),
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+            ...headers
+        },
         ...(hasBody && { body: JSON.stringify(body) })
     })
     const json = await res.json()
