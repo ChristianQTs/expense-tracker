@@ -36,11 +36,7 @@ export function ExpenseTrackerPage() {
     const { user, updateUser, logout } = useContext(AuthContext)!
     const navigate = useNavigate()
 
-    useEffect(() => {
-        setExpenses(loadedExpenses)
-    }, [loadedExpenses])
-
-    useEffect(() => {
+   useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         if (isFiltered && filteredExpenses.length === 0) setFilter('all')
     }, [filteredExpenses, isFiltered])
