@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { redirect, useLoaderData, useNavigate } from 'react-router-dom'
 import { AddExpense } from '../components/AddExpense.jsx'
 import { ExpensesList } from '../components/ExpensesList.jsx'
 import { Filter } from '../components/Filter.jsx'
@@ -8,10 +8,27 @@ import { getExpenses, addExpense, deleteExpense, updateExpense, setUserBudget, d
 import type { ClientExpense, AddBody, UpdateBody } from '@expense-tracker/shared'
 import { AuthContext } from '../authContext.jsx'
 import {Button} from '../components/styling comps/Button.jsx'
+
+export async function expensesLoader(): Promise<ClientExpense[]> {
+    if (!localStorage.getItem('token')) throw redirect('/login')
+
+    try {
+        return await getExpenses()
+    } catch (err: any) {
+        if (err.statusCode === 401) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            throw redirect('/login')
+        }
+        throw err
+    }
+}
+
 export function ExpenseTrackerPage() {
 
+    const loadedExpenses = useLoaderData() as ClientExpense[]
     const [error, setError] = useState<string>('')
-    const [expenses, setExpenses] = useState<ClientExpense[]>([])
+    const [expenses, setExpenses] = useState<ClientExpense[]>(loadedExpenses)
     const [filter, setFilter] = useState<string>('all')
     const isFiltered: boolean = filter !== 'all'
     const filteredExpenses: ClientExpense[] = isFiltered ? expenses.filter(e => e.category === filter) : expenses
@@ -20,9 +37,8 @@ export function ExpenseTrackerPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!user) return setExpenses([])
-        getExpenses().then(expenses => { setExpenses(expenses) }).catch(err => console.error(err))
-    }, [user])
+        setExpenses(loadedExpenses)
+    }, [loadedExpenses])
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
