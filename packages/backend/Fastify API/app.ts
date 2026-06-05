@@ -1,6 +1,7 @@
 
 import Fastify from 'fastify'
 import type { FastifyError } from 'fastify'
+import cookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import { expensesRoutes } from './expensesRoutes.js'
 import { budgetRoutes } from './budgetRoutes.js'
@@ -8,6 +9,7 @@ import { authRoutes } from './authRoutes.js'
 import 'dotenv/config'
 const port : number = process.env.PORT ? parseInt(process.env.PORT, 10) : 8001
 const app = Fastify({ logger: false })
+await app.register(cookie, { secret: process.env.JWT_SECRET })
 await app.register(cors, {
     origin: (origin, cb) => {
         // Allow local development or requests with no origin (like mobile apps/Postman)

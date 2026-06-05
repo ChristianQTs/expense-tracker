@@ -10,13 +10,12 @@ import { AuthContext } from '../authContext.jsx'
 import {Button} from '../components/styling comps/Button.jsx'
 
 export async function expensesLoader(): Promise<ClientExpense[]> {
-    if (!localStorage.getItem('token')) throw redirect('/login')
+    if (!localStorage.getItem('user')) throw redirect('/login')
 
     try {
         return await getExpenses()
     } catch (err: any) {
         if (err.statusCode === 401) {
-            localStorage.removeItem('token')
             localStorage.removeItem('user')
             throw redirect('/login')
         }

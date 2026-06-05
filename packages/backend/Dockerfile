@@ -6,10 +6,12 @@ RUN npm ci
 COPY . .
 RUN npx prisma generate
 RUN npm run build
+ARG NODE_ENV=production
 
 FROM node:20-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV=production
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
 COPY package*.json ./
 COPY prisma ./prisma/
 COPY prisma.config.ts ./

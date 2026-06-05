@@ -6,10 +6,13 @@ services:
     build:
       context: ./packages/backend
       dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
     ports:
       - "8001:8001"
     environment:
       - PORT=8001
+      - NODE_ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/expense_tracker?schema=public
     depends_on:
       db:

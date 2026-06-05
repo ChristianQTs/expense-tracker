@@ -25,7 +25,16 @@ export async function login(request: FastifyRequest<{Body : AuthBody}>, reply : 
         if (!passwordMatch) return reply.code(401).send({ message: 'Invalid credentials' })
 
         const token = jwt.sign({ id: user.id }, JWT_KEY, { expiresIn: '1h' })
-        return { user: { id: user.id, username: user.username, budget: user.budget }, token }
+        reply.setCookie('token', token, {
+            path: '/',
+            httpOnly: true,
+            secure: process.env.NODE_ENV==='production',
+            maxAge: 3600000,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+
+        })
+        
+        return { user: { id: user.id, username: user.username, budget: user.budget } }
         
     } catch (err) {
 
@@ -57,5 +66,21 @@ export async function register(request: FastifyRequest<{Body : AuthBody}>, reply
         if (err.code === 'P2002') return reply.code(409).send({ message: 'Username not available' })
         return reply.code(500).send({ message: 'Internal Server Error' })
 
+    }
+}
+
+//logout
+export async function logout(request: FastifyRequest, reply: FastifyReply) {
+    try {
+        return reply.setCookie('token', '', {
+            path: '/',
+            secure: false,
+            sameSite: 'lax',
+            expires: new Date(0),
+            httpOnly: true
+        }).send({ message: 'Logged out successfully.' })
+    }
+    catch (err: any) {
+        reply.code(500).send(err.message || 'Internal Server Error')
     }
 }
