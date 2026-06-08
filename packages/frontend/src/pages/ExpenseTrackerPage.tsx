@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { redirect, useLoaderData, useNavigate } from 'react-router-dom'
+import { LanguageSelect } from '../language/languageSelect.jsx'
+import { useLanguage } from '../language/LanguageContext.js'
 import { AddExpense } from '../components/AddExpense.jsx'
 import { ExpensesList } from '../components/ExpensesList.jsx'
 import { Filter } from '../components/Filter.jsx'
@@ -32,6 +34,7 @@ export function ExpenseTrackerPage() {
     const isFiltered: boolean = filter !== 'all'
     const filteredExpenses: ClientExpense[] = isFiltered ? expenses.filter(e => e.category === filter) : expenses
     const [showBudget, setShowBudget] = useState<boolean>(false)
+    const {t, language} = useLanguage()
     const { user, updateUser, logout } = useContext(AuthContext)!
     const navigate = useNavigate()
 
@@ -106,17 +109,19 @@ export function ExpenseTrackerPage() {
 
     return (
         <div className='min-h-screen bg-mist-100 flex flex-col'>
-            <h1 className='px-5 py-7 flex justify-center text-black text-4xl font-bold'>Expenses Tracker</h1>
+            <h1 className='px-5 py-7 flex justify-center text-black text-4xl font-bold'>{t('pageTitle')}</h1>
 
             <div className='flex items-center justify-center gap-2.5'>
-                <h2>Welcome <strong>{user?.username}</strong>!</h2>
-                <Button onClick={handleLogout} styleType='auth'>Log out</Button>
+                <h2>{t('welcome')} <strong>{user?.username}</strong>!</h2>
+                <Button onClick={handleLogout} styleType='auth'>{t('logout')}</Button>
             </div>
-
+            <div className='flex p-3 justify-center'>
+                <LanguageSelect/>
+            </div>
             <div className='flex items-center justify-center gap-2.5'>
                 <AddExpense onAdd={handleAddExpense}>
                     <Button className='flex-1 md:w-auto h-fit whitespace-nowrap max-md:px-2 max-md:py-0.5 max-md:text-s max-md:font-medium' onClick={() => setShowBudget(prev => !prev)}>
-                        {`${showBudget ? 'Hide' : 'Show'} Budget`}
+                        {showBudget ? t('hideBudget') :  t('showBudget') }
                     </Button>
                 </AddExpense>
             </div>
@@ -137,7 +142,7 @@ export function ExpenseTrackerPage() {
 
                 {/* 1. Global Total */}
                 <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
-                    <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>Total: </span>
+                    <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{t('total')}: </span>
                     <span className='font-bold text-base md:text-lg text-black'>{totalExpense} &euro;</span>
                 </div>
                 {isFiltered && (
@@ -147,7 +152,7 @@ export function ExpenseTrackerPage() {
 
                         {/* 2. Category Total */}
                         <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
-                            <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{filter} total: </span>
+                            <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{language === 'it' ? `Totale ${t(filter as any)}` : `${t(filter as any)} Total`}: </span>
                             <span className='text-black font-bold text-base md:text-lg'>{totalCategory} &euro;</span>
                         </div>
 
@@ -156,7 +161,7 @@ export function ExpenseTrackerPage() {
 
                         {/* 3. Percentage */}
                         <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
-                            <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{filter} % of total: </span>
+                            <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{language === 'it' ? `% ${t(filter as any)} del totale` : `${t(filter as any)} % of total`}: </span>
                             <span className='text-black font-bold text-base md:text-lg'>{categoryPercentage} %</span>
                         </div>
                     </>

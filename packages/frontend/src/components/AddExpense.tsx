@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { AddBody } from '@expense-tracker/shared'
 import { Button, inputStyle } from './styling comps/Button.jsx'
+import { useLanguage } from '../language/LanguageContext.js'
 interface addExpenseProps {
     onAdd: (data: AddBody) => void;
     children:any
@@ -11,6 +12,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
     const [nameInput, setNameInput] = useState<string>('')
     const [amountInput, setAmountInput] = useState<number>()
     const [categoryInput, setCategoryInput] = useState<string>('')
+    const {t} = useLanguage()
 
     const handleAdd = (e:any) => {
         e.preventDefault()
@@ -29,32 +31,32 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
         <div className='py-6'>
             <form className='flex flex-col md:flex-row md:flex-wrap gap-4 w-max items-end bg-blue-80/50 shadow-md border-blue-100 p-3 font-medium' onSubmit={handleAdd}>
                 <div className='flex items-center gap-2 w-full md:w-auto'>
-                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='name'>Name: </label>
+                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='name'>{t('name') }: </label>
                     <input className={inputStyle} id='name' name='name' type='text' value={nameInput} onChange={e => setNameInput(e.target.value)} />
                 </div>
                 <div className='flex items-center gap-2 w-full md:w-auto'>
-                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='amount'>Amount: </label>
+                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='amount'>{t('amount') }: </label>
                     <input className={inputStyle} id='amount' name='amount' type='number' value={amountInput === 0 ? '' : amountInput} onChange={e => setAmountInput(Number(e.target.value))} />
                 </div>
                 <div className='flex items-center gap-2 w-full md:w-auto'>
-                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='category'>Category: </label>
+                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='category'>{t('category') }: </label>
                     <select className={inputStyle} id='category' name='category' value={categoryInput} onChange={e => setCategoryInput(e.target.value)}>
-                        <option value=''>Category</option>
-                        <option value='Housing'>Housing</option>
-                        <option value='Transportation'>Transportation</option>
-                        <option value='Food'>Food</option>
-                        <option value='Utilities'>Utilities</option>
-                        <option value='Clothing'>Clothing</option>
-                        <option value='Medical'>Medical</option>
-                        <option value='Insurance'>Insurance</option>
-                        <option value='Household Supplies'>Household Supplies</option>
-                        <option value='Personal'>Personal</option>
-                        <option value='Debt'>Debt</option>
-                        <option value='Retirement'>Retirement</option>
-                        <option value='Education'>Education</option>
-                        <option value='Savings'>Savings</option>
-                        <option value='Gifts'>Gifts</option>
-                        <option value='Entertainment'>Entertainment</option>
+                        <option value=''>{t('category')}</option>
+                        <option value='Housing'>{t('Housing')}</option>
+                        <option value='Transportation'>{t('Transportation')}</option>
+                        <option value='Food'>{t('Food')}</option>
+                        <option value='Utilities'>{t('Utilities')}</option>
+                        <option value='Clothing'>{t('Clothing')}</option>
+                        <option value='Medical'>{t('Medical')}</option>
+                        <option value='Insurance'>{t('Insurance')}</option>
+                        <option value='Household Supplies'>{t('Household Supplies')}</option>
+                        <option value='Personal'>{t('Personal')}</option>
+                        <option value='Debt'>{t('Debt')}</option>
+                        <option value='Retirement'>{t('Retirement')}</option>
+                        <option value='Education'>{t('Education')}</option>
+                        <option value='Savings'>{t('Savings')}</option>
+                        <option value='Gifts'>{t('Gifts')}</option>
+                        <option value='Entertainment'>{t('Entertainment')}</option>
                     </select>
                 </div>
                 <div className='flex items-end gap-2 w-full md:w-auto mt-2 md:mt-0'>
@@ -64,7 +66,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                         type="submit"
                         isDisabled={!nameInput || !amountInput || !categoryInput || amountInput <= 0}
                     >
-                        Add
+                        {t('add')}
                     </Button>
                     {children}
                 </div>

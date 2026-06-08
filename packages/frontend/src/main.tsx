@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './authContext.jsx'
+import { LanguageProvider} from './language/LanguageContext.js'
 import './style.css'
 import { LoginPage } from './pages/LoginPage.jsx'
 import { RegisterPage } from './pages/RegisterPage.jsx'
@@ -33,9 +34,11 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-        <AuthProvider>
-            <RouterProvider router={router} />
-        </AuthProvider>
-  </StrictMode>,
+    <StrictMode>
+        <LanguageProvider>
+            <AuthProvider>
+                <RouterProvider router={router} />
+            </AuthProvider>
+        </LanguageProvider>
+    </StrictMode>,
 )

@@ -1,13 +1,16 @@
 import { AuthContext } from '../authContext.jsx'
+import { useLanguage } from '../language/LanguageContext.js'
 import { useContext, useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, inputStyle } from '../components/styling comps/Button.js'
+import { LanguageSelect } from '../language/languageSelect.jsx'
 
 
 
 export function LoginPage() {
 
-    const {login} = useContext(AuthContext)!
+    const { login } = useContext(AuthContext)!
+    const {t} = useLanguage()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState<string>('')
@@ -36,8 +39,9 @@ export function LoginPage() {
 
     return (
         <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4'>
-            <h1 className='mb-2 text-4xl md:text-5xl font-bold text-blue-700 text-center'>Expense Tracker</h1>
-            <h2 className='mb-8 text-xl md:text-2xl font-semibold text-gray-700'>Log In here</h2>
+            <LanguageSelect/>
+            <h1 className='mb-2 text-4xl md:text-5xl font-bold text-blue-700 text-center'>{t('pageTitle')}</h1>
+            <h2 className='mb-8 text-xl md:text-2xl font-semibold text-gray-700'>{t('login')}</h2>
 
             <div className='w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 md:p-8 shadow-md'>
                 <form className='flex flex-col gap-4' onSubmit={handleLogin}>
@@ -72,7 +76,7 @@ export function LoginPage() {
                             className="w-full md:w-auto text-center flex items-center justify-center h-[36px]"
                             isDisabled={!username.trim() || !password.trim()}
                         >
-                            Log in
+                            {t('loginButton')}
                         </Button>
                     </div>
                 </form>
@@ -80,8 +84,8 @@ export function LoginPage() {
                 {error && <p className='mt-4 text-red-500 text-center text-sm'>{error}</p>}
 
                 <p className='text-center mt-6 text-sm md:text-base text-gray-600'>
-                    Don't have an account?{' '}
-                    <Link to='/register' className='text-blue-600 hover:underline font-medium'>Register</Link>
+                    {t('noAccountQuestion')} {' '}
+                    <Link to='/register' className='text-blue-600 hover:underline font-medium'>{t('register')}</Link>
                 </p>
             </div>
         </div>
