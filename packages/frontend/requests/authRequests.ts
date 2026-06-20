@@ -1,6 +1,5 @@
 import { fetchApi } from '../fetchWrapper.js'
-import type { RegisterResponse, LoginResponse } from '@expense-tracker/shared'
-
+import type { RegisterResponse, LoginResponse, AuthenticatedUser } from '@expense-tracker/shared'
 export async function makeRegisterRequest(username : string, password:string):Promise<RegisterResponse> {
 
     const res = await fetchApi<RegisterResponse>('/auth/register', {
@@ -24,4 +23,8 @@ export async function makeLogoutRequest(): Promise<{message: string} > {
     return await fetchApi<{ message: string }>('/auth/logout', {
         method : 'POST'
     })
+}
+
+export async function makeMeRequest(): Promise<AuthenticatedUser> {
+    return await fetchApi<AuthenticatedUser>('/auth/me')
 }

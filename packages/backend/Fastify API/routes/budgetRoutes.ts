@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify'
-import { setBudget, deleteBudget } from './controllers/budgetControllers.js'
-import { BUDGET_PATCH_SCHEMA } from './validationSchemas.js'
-import { authenticateUser } from './preHandlers/authPreHandlers.js'
+import { setBudget, deleteBudget } from '../controllers/budgetControllers.js'
+import { BUDGET_PATCH_SCHEMA } from '../validationSchemas.js'
+import { authenticateUser } from '../preHandlers/authPreHandlers.js'
 //budget plugin
 
 const budgetRoutes : FastifyPluginAsync = async (fastify, opts) => {

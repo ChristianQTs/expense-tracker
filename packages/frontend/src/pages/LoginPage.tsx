@@ -1,6 +1,6 @@
-import { AuthContext } from '../authContext.jsx'
+import { useAuth } from '../authContext.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
-import { useContext, useState} from 'react'
+import { useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, inputStyle } from '../components/styling comps/Button.js'
 import { LanguageSelect } from '../language/languageSelect.jsx'
@@ -9,7 +9,7 @@ import { LanguageSelect } from '../language/languageSelect.jsx'
 
 export function LoginPage() {
 
-    const { login } = useContext(AuthContext)!
+    const { login } = useAuth()
     const {t} = useLanguage()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -33,6 +33,7 @@ export function LoginPage() {
             setPassword('')
             return 
         }
+          (window as any).__justLoggedIn = true;
           navigate('/expenses')
 
     }

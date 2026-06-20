@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react'
-import { redirect, useLoaderData, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { LanguageSelect } from '../language/languageSelect.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
 import { AddExpense } from '../components/AddExpense.jsx'
@@ -8,35 +8,26 @@ import { Filter } from '../components/Filter.jsx'
 import { Budget } from '../components/Budget.jsx'
 import { getExpenses, addExpense, deleteExpense, updateExpense, setUserBudget, deleteUserBudget } from '../../requests/expensesRequests.js'
 import type { ClientExpense, AddBody, UpdateBody } from '@expense-tracker/shared'
-import { AuthContext } from '../authContext.jsx'
+import { useAuth } from '../authContext.jsx'
 import {Button} from '../components/styling comps/Button.jsx'
 
-export async function expensesLoader(): Promise<ClientExpense[]> {
-    if (!localStorage.getItem('user')) throw redirect('/login')
 
-    try {
-        return await getExpenses()
-    } catch (err: any) {
-        if (err.statusCode === 401) {
-            localStorage.removeItem('user')
-            throw redirect('/login')
-        }
-        throw err
-    }
-}
 
 export function ExpenseTrackerPage() {
 
-    const loadedExpenses = useLoaderData() as ClientExpense[]
     const [error, setError] = useState<string>('')
-    const [expenses, setExpenses] = useState<ClientExpense[]>(loadedExpenses)
+    const [expenses, setExpenses] = useState<ClientExpense[]>([])
     const [filter, setFilter] = useState<string>('all')
     const isFiltered: boolean = filter !== 'all'
     const filteredExpenses: ClientExpense[] = isFiltered ? expenses.filter(e => e.category === filter) : expenses
     const [showBudget, setShowBudget] = useState<boolean>(false)
     const {t, language} = useLanguage()
-    const { user, updateUser, logout } = useContext(AuthContext)!
+    const { user, updateUser, logout } = useAuth()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        getExpenses().then(expenses => setExpenses(expenses)).catch(err => setError(err.message || 'Failed to load expenses'))
+    }, [user])
 
    useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -105,7 +96,7 @@ export function ExpenseTrackerPage() {
 
     const totalExpense = expenses.length !== 0 ? expenses.reduce((tot, exp) => tot + Number(exp.amount), 0) : 0
     const totalCategory = expenses.length !== 0 ? filteredExpenses.reduce((tot, exp) => tot + Number(exp.amount), 0) : 0
-    const categoryPercentage = totalExpense !== 0 ? Math.floor((totalCategory * 100) / totalExpense) : 0
+    const categoryPercentage = totalExpense !== 0 ? Math.floor((totalCategory * 100) / totalExpense ) : 0
 
     return (
         <div className='min-h-screen bg-mist-100 flex flex-col'>
@@ -127,8 +118,8 @@ export function ExpenseTrackerPage() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                {error && <Button onClick={() => setError('')}>Ok</Button>}
+               {error !== '' ? <p style={{ color: 'red' }}>{error}</p> : null}
+               {error !== '' ? <Button onClick={() => setError('')}>Ok</Button> : null}
             </div>
 
             {showBudget && <Budget total={totalExpense} user={user!} onSetBudget={handleAddBudget} onDeleteBudget={handleDeleteBudget} />}
@@ -143,7 +134,7 @@ export function ExpenseTrackerPage() {
                 {/* 1. Global Total */}
                 <div className='flex flex-col md:flex-row md:items-center justify-center text-center md:text-left gap-0.5 md:gap-2 w-full md:w-auto'>
                     <span className='text-xs md:text-sm uppercase tracking-wider md:normal-case md:tracking-normal text-blue-700 md:text-blue-900'>{t('total')}: </span>
-                    <span className='font-bold text-base md:text-lg text-black'>{totalExpense} &euro;</span>
+                    <span className='font-bold text-base md:text-lg text-black'>{totalExpense.toFixed(2) as unknown as number} &euro;</span>
                 </div>
                 {isFiltered && (
                     <>

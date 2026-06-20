@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import type { AuthenticatedUser } from '@expense-tracker/shared';
 import { makeLoginRequest, makeRegisterRequest, makeLogoutRequest } from '../requests/authRequests.js';
 
 interface AuthContextType {
     user: AuthenticatedUser | null;
+    setUser: (user: AuthenticatedUser) => void;
     updateUser: (newUser: AuthenticatedUser) => void;
     login: (username: string, password: string) => Promise<{ success: boolean, message?: string }>;
     register: (username: string, password: string) => Promise<{ success: boolean, message?: string }>;
@@ -16,7 +17,6 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }:AuthProviderProps) {
-
     const [user, setUser] = useState<AuthenticatedUser | null>(() => {
         const storedUser = localStorage.getItem('user')
         return storedUser ? JSON.parse(storedUser) : null
@@ -28,7 +28,6 @@ export function AuthProvider({ children }:AuthProviderProps) {
         try {
 
             const res = await makeLoginRequest(username, password)
-
                 setUser(res.user)
                 localStorage.setItem('user', JSON.stringify(res.user))
                 return { success: true }
@@ -67,12 +66,16 @@ export function AuthProvider({ children }:AuthProviderProps) {
         setUser(newUser)
     }
     return (
-        <AuthContext.Provider value={{ user, updateUser, login, register, logout}}>
+        <AuthContext.Provider value={{ user, setUser, updateUser, login, register, logout}}>
             {children}
         </AuthContext.Provider>
     )
 }
 
-
-
-export { AuthContext };
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used inside an AuthProvider');
+    }
+    return context;
+};

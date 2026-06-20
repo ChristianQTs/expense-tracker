@@ -1,12 +1,12 @@
-
+import 'dotenv/config'
 import Fastify from 'fastify'
 import type { FastifyError } from 'fastify'
 import cookie from '@fastify/cookie'
 import cors from '@fastify/cors'
-import { expensesRoutes } from './expensesRoutes.js'
-import { budgetRoutes } from './budgetRoutes.js'
-import { authRoutes } from './authRoutes.js'
-import 'dotenv/config'
+import { expensesRoutes } from './routes/expensesRoutes.js'
+import { budgetRoutes } from './routes/budgetRoutes.js'
+import { authRoutes } from './routes/authRoutes.js'
+
 const port : number = process.env.PORT ? parseInt(process.env.PORT, 10) : 8001
 const app = Fastify({ logger: false })
 await app.register(cookie, { secret: process.env.JWT_SECRET })
@@ -36,7 +36,7 @@ await app.register(cors, {
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 
 })
-//register expenses plugin
+//register plugins
 app.register(expensesRoutes, { prefix: '/users/expenses' })
 app.register(budgetRoutes, { prefix: '/users/budget' })
 app.register(authRoutes, { prefix: '/users/auth' })

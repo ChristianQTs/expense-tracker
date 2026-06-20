@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react'
-import { AuthContext } from '../authContext.jsx'
+import { useState } from 'react'
+import { useAuth } from '../authContext.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, inputStyle } from '../components/styling comps/Button.js'
@@ -11,7 +11,7 @@ export function RegisterPage() {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
-    const { register } = useContext(AuthContext)!
+    const { register } = useAuth()
     const {t} = useLanguage()
     const [error, setError] = useState<string>('')
     const navigate = useNavigate()
