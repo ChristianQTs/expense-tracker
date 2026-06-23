@@ -4,5 +4,8 @@
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "redis-cli": "^2.1.2"
+  }
 }
