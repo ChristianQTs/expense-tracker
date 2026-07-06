@@ -4,6 +4,7 @@ import { createBrowserRouter, Navigate, RouterProvider, Outlet } from 'react-rou
 import { AuthProvider, useAuth } from './authContext.jsx'
 import { LanguageProvider} from './language/LanguageContext.js'
 import './style.css'
+import { Home } from './pages/Home.jsx'
 import { LoginPage } from './pages/LoginPage.jsx'
 import { RegisterPage } from './pages/RegisterPage.jsx'
 import { ExpenseTrackerPage } from './pages/ExpenseTrackerPage.jsx'
@@ -30,7 +31,7 @@ function ProtecetdRoute() {
     
 
     if (!user) {
-        return <Navigate to = '/login' replace />
+        return <Navigate to = '/home' replace />
     }
     return <Outlet />;
 }
@@ -38,8 +39,12 @@ function ProtecetdRoute() {
 
 const router = createBrowserRouter([
     {
+        path: '/home',
+        element: <Home/>
+    },
+    {
         path: '/',
-        element: <Navigate to="/login" replace />
+        element: <Navigate to="/home" replace />
     },
     {
         path: '/login',

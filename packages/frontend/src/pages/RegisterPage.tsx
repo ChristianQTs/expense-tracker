@@ -39,7 +39,7 @@ export function RegisterPage() {
     return (
         <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4'>
         <LanguageSelect/>
-            <h1 className='mb-2 text-4xl md:text-5xl font-bold text-blue-700 text-center'>{t('pageTitle')}</h1>
+            <a href={`${window.location.origin}/home`} className='mb-2 text-4xl md:text-5xl font-bold text-blue-700 text-center transition duration-300 hover:scale-110'>{t('pageTitle')}</a>
             <h2 className='mb-8 text-xl md:text-2xl font-semibold text-gray-700'>{t('register')}</h2>
 
             <div className='w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 md:p-8 shadow-md'>

@@ -60,7 +60,13 @@ export const translations = {
         setBudgetButton:'Set budget',
         overspent:'Overspent',
         spent: 'spent',
-        remaining:'Remaining'
+        remaining: 'Remaining',
+
+        //Home
+        prod_desc1: 'Easily keep track of your expenses.',
+        prod_desc2: 'Set a budget for your expenses.',
+        slogan: 'Manage your money wisely, track every cent.',
+        startTracking: 'Start tracking!'
     },
     it: {
         // Page Title
@@ -124,8 +130,13 @@ export const translations = {
         setBudgetButton:'Imposta',
         overspent:'Oltre il budget',
         spent:'speso',
-        remaining:'Rimanente'
+        remaining: 'Rimanente',
 
+        //Home
+        prod_desc1: 'Tieni traccia delle tue spese facilmente.',
+        prod_desc2: 'Imposta un budget per le tue spese.',
+        slogan: 'Gestisci i tuoi soldi saggiamente, ogni centesimo conta.',
+        startTracking: 'Inizia subito!'
         
     }
 };

@@ -100,7 +100,7 @@ export function ExpenseTrackerPage() {
 
     return (
         <div className='min-h-screen bg-mist-100 flex flex-col'>
-            <h1 className='px-5 py-7 flex justify-center text-black text-4xl font-bold'>{t('pageTitle')}</h1>
+            <a href={`${window.location.origin}/home`} className='py-7 mb-2 text-center text-4xl font-bold text-blue-700 transition duration-300 hover:scale-110 w-fit self-center'>{t('pageTitle')}</a>
 
             <div className='flex items-center justify-center gap-2.5'>
                 <h2>{t('welcome')} <strong>{user?.username}</strong>!</h2>
