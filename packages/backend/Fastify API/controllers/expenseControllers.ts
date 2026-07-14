@@ -3,12 +3,28 @@ import type { expenses } from '@prisma/client'
 import type { FastifyRequest, FastifyReply } from 'fastify'
 import type { AddBody, ExpenseParams,UpdateBody } from '../../types/expensesTypes.js'
 
-export async function getExpenses(request: FastifyRequest, reply: FastifyReply) {
+export interface GetExpensesQuery {
+    start?: string,
+    end?: string
+}
+export async function getExpenses(request: FastifyRequest<{Querystring : GetExpensesQuery}>, reply: FastifyReply) {
+
+    const { start, end } = request.query
 
     if (!request.user) return reply.code(401).send({message : 'Unauthorized'})
-
     const userId = request.user.id
-    const userExpenses  = await prisma.expenses.findMany({ where: { user_id: userId } })
+
+    const whereClause: any = {
+        user_id : userId
+    }
+
+    if (start || end) {
+        whereClause.created_at = {}
+        if (start) whereClause.created_at.gte = new Date(start)
+        if (end) whereClause.created_at.lte = new Date(end)
+    }
+
+    const userExpenses = await prisma.expenses.findMany({ where: whereClause})
 
     return  userExpenses
 }

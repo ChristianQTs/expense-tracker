@@ -18,10 +18,12 @@ model expenses {
 }
 
 model users {
-  id              Int        @id @default(autoincrement())
-  username        String     @unique
-  budget          Decimal?   @db.Decimal
-  hashed_password String
-  expenses        expenses[]
+  id				Int        @id @default(autoincrement())
+  username			String     @unique
+  monthly_budget	Decimal?   @db.Decimal
+  quarterly_budget  Decimal?   @db.Decimal
+  yearly_budget		Decimal?   @db.Decimal
+  hashed_password	String
+  expenses			expenses[]
   @@index([username])
 }

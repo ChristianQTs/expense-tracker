@@ -1,5 +1,15 @@
-//POST REQUESTS SCHEMA:
+//GET EXPENSES REQUEST SCHEMA:
+export const GET_EXPENSES_SCHEMA = {
+    $id: 'GET_EXPENSES_QUERY_SCHEMA',
+    type: 'object',
+    properties: {
+        start: { type: 'string', description: 'The start window date-time string'},
+        end: { type: 'string', description: 'The end window date-time string' }
+    },
+    additionalProperties : false
+}
 
+//POST REQUESTS SCHEMA:
 export const POST_SCHEMA = {
     $id: 'POST_SCHEMA',
     type: "object",
@@ -31,14 +41,26 @@ export const DELETE_SCHEMA = {
     },
     required: ['expenseId']
 }
-//SET BUDGET PATCH REQUESTS SCHEMA:
-export const BUDGET_PATCH_SCHEMA = {
-    $id: 'BUDGET_SET_SCHEMA',
+//SET BUDGET PATCH BODY SCHEMA:
+export const BUDGET_PATCH_BODY_SCHEMA = {
+    $id: 'BUDGET_SET_BODY_SCHEMA',
     type: 'object',
     properties: {
-        budget: {type : 'number', minimum : 0}
+        budget: { type: 'number', minimum: 1 },
     },
-    required :  ['budget']
+    required : ['budget']
+}
+//SET BUDGET PATCH QUERY STRING SCHEMA:
+export const BUDGET_PATCH_QUERY_SCHEMA = {
+    $id: 'BUDGET_SET_QUERY_SCHEMA',
+    type: 'object',
+    properties: {
+        type: {
+            type: 'string',
+            enum : ['monthly', 'quarterly', 'yearly']
+        }
+    },
+    required : ['type']
 }
 //LOGIN POST SCHEMA:
 export const LOGIN_SCHEMA = {

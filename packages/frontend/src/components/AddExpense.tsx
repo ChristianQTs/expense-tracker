@@ -40,7 +40,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                 </div>
                 <div className='flex items-center gap-2 w-full md:w-auto'>
                     <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='category'>{t('category') }: </label>
-                    <select className={inputStyle} id='category' name='category' value={categoryInput} onChange={e => setCategoryInput(e.target.value)}>
+                    <select className={`${inputStyle} w-full md:w-auto`} id='category' name='category' value={categoryInput} onChange={e => setCategoryInput(e.target.value)}>
                         <option value=''>{t('category')}</option>
                         <option value='Housing'>{t('Housing')}</option>
                         <option value='Transportation'>{t('Transportation')}</option>
@@ -57,6 +57,8 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                         <option value='Savings'>{t('Savings')}</option>
                         <option value='Gifts'>{t('Gifts')}</option>
                         <option value='Entertainment'>{t('Entertainment')}</option>
+                        <option value='Taxes'>{t('Taxes')}</option>
+                        <option value='Fees'>{t('Fees')}</option>
                     </select>
                 </div>
                 <div className='flex items-end gap-2 w-full md:w-auto mt-2 md:mt-0'>

@@ -1,6 +1,6 @@
 import type { users } from '@prisma/client'
 
-export type AuthenticatedUser = Pick<users, 'id' | 'username'> & { budget:  number | null }
+export type AuthenticatedUser = Pick<users, 'id' | 'username'> & { monthly_budget: number | null, quarterly_budget: number | null, yearly_budget: number | null }
 export interface AuthBody {
     username: string,
     password: string

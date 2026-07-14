@@ -9,7 +9,7 @@ import personalIcon from '../assets/personal.svg';
 import medicalIcon from '../assets/medical.svg';
 import entertainmentlIcon from '../assets/entertainment.svg';
 import householdIcon from '../assets/household.svg';
-const iconProps = 'h-16 w-32 md:h-32 md:w-56'
+const iconProps = 'h-16 w-32 md:h-32 md:w-56 fill-gray-50/50'
 
 
 
@@ -18,7 +18,7 @@ export function Home() {
     const {t} = useLanguage()
     return (
         <div className='flex flex-col min-h-screen bg-gray-50/50'>
-            <nav className='flex flex-col md:flex-row gap-3 justify-center p-4 md:items-center border border-gray-200 w-full bg-gray-100'>
+            <nav className='flex flex-col md:flex-row gap-3 justify-center p-4 items-center border border-gray-200 w-full bg-gray-100'>
                 <a href={`${window.location.origin}/home`} className='mb-2 text-center text-4xl font-bold text-blue-700 transition duration-300 hover:scale-110'>{t('pageTitle')}</a>
                 {!user ? <div className='flex flex-wrap justify-center gap-3 md:ml-auto'>
                     <Link to='/login' className='text-blue-600 hover:underline font-medium'>{t('loginButton')}</Link>

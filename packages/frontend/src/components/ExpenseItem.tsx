@@ -12,7 +12,7 @@ interface ExpenseItemProps {
 
 
 export function ExpenseItem({ expense , onDelete, onUpdate } : ExpenseItemProps) {
-    const categories = ['Housing','Transportation','Food','Utilities','Clothing','Medical','Insurance','Household Supplies','Personal','Debt','Retirement','Savings','Gifts','Entertainment']
+    const categories = ['Housing','Transportation','Food','Utilities','Clothing','Medical','Insurance','Household Supplies','Personal','Debt','Retirement','Savings','Gifts','Entertainment', 'Taxes', 'Fees']
     const {t} = useLanguage()
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [editedName, setEditedName] = useState<string>(expense.name)
@@ -47,9 +47,9 @@ export function ExpenseItem({ expense , onDelete, onUpdate } : ExpenseItemProps)
             (
                 <li className={gridLayout}>
                     <div className='justify-self-start'>
-                        <Button  onClick={() => setIsEditing(prev => !prev)}>{isEditing ? t('closeEdit') : t('edit')}</Button>
+                        <Button title='Edit expense' className='hover:scale-105' onClick={() => setIsEditing(prev => !prev)}>{isEditing ? t('closeEdit') : t('edit')}</Button>
                     </div>
-                    <div className='flex flex-wrap items-center justify-center gap-x-3 text-sm tracking-wide'>
+                    <div className='flex md:flex-nowrap flex-wrap items-center justify-center gap-x-3 text-sm tracking-wide'>
                         <span className='font-semibold text-gray-800 text-base min-w-[100px]'>{expense.name} </span>
                         <span className='hidden md:inline text-gray-300 font-light'>|</span>
                         <span className='font-mono font-medium px-0.5 py-0.5 bg-emerald-50 text-emerald-700 rounded border border-emerald-100 min-w-[75px]'>{expense.amount}  &euro; </span>
@@ -59,14 +59,14 @@ export function ExpenseItem({ expense , onDelete, onUpdate } : ExpenseItemProps)
                         <span className='text-xs text-gray-400 font-mono tracking-tight bg-gray-50 px-0.5 py-1 rounded'>{String(expense.created_at).split('T')[0]}</span>
                     </div>
                     <div className='justify-self-end'>
-                        <Button onClick={() => onDelete(expense.id)} styleType='delete' title='Delete'>X</Button>
+                        <Button onClick={() => onDelete(expense.id)} styleType='delete' className="grid place-items-center h-5 w-5 !p-0 text-xs rounded-full hover:scale-105" title='Delete'>X</Button>
                     </div>
                 </li>
             ) :
             (
                 <li className={`${gridLayout} bg-inherit border border-dashed border-gray-200 rounded`}>
                     <div className='justify-self-start'>
-                        <Button onClick={toggleEditing}>{isEditing ? t('closeEdit') : t('edit')}</Button>
+                        <Button className='hover:scale-105' onClick={toggleEditing} title='Close editing mode'>{isEditing ? t('closeEdit') : t('edit')}</Button>
                     </div>
                     <div className='flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm'>
                         <input className={`${inputStyle} w-36  py-1 text-center font-medium border-gray-300 focus:border-blue-400 shadow-sm`} type='text' value={editedName} onChange={e => setEditedName(e.target.value)} />
@@ -82,7 +82,7 @@ export function ExpenseItem({ expense , onDelete, onUpdate } : ExpenseItemProps)
                         </select>
                     </div>
                     <div className='justify-self-end'>
-                        <Button onClick={handleSave} isDisabled={!hasChanges || !isValid}>{t('save')}</Button>
+                        <Button className='hover:scale-105' onClick={handleSave} isDisabled={!hasChanges || !isValid}>{t('save')}</Button>
                     </div>
                 </li>
         )

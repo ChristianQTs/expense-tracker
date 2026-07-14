@@ -17,10 +17,20 @@ export const translations = {
         confirm: 'Confirm',
         passwordMatch:'Passwords must match',
         // Dashboard Box Labels
+        monthlyTotal: 'Monthly total',
+        quarterlyTotal: 'Quarterly total',
+        yearlyTotal: 'Yearly total',
         total: 'Total',
         totalForCategory: 'total', // Used in: `${filter} total:`
         percentageOfTotal: '% of total', // Used in: `${filter} % of total:`
-        filter:'Filter',
+        filterCategory: 'Filter by category',
+        expensesFrom: 'Your expenses from',
+        to: 'to',
+        noMonthExpense : 'No expense for the current month',
+        noQuarterExpense : 'No expense for the current quarter',
+        noYearExpense: 'No expense for the current year',
+        noExpenseYet: 'No expense yet',
+        periodComparisonWarning: '(Budget period must be larger than or equal to the expense period to show tracking)',
 
         // Dynamic Toggles & Actions
         selectLanguage:'Select a language',
@@ -29,8 +39,10 @@ export const translations = {
         ok: 'Ok',
         add: 'Add',
         edit: 'Edit',
+        cancel:'Cancel',
         closeEdit: 'Close Edit',
-        save:'Save',
+        save: 'Save',
+        selectExpensePeriod: 'Select an expense period',
 
         //expense fields
         name:'Name',
@@ -54,13 +66,30 @@ export const translations = {
         Savings: 'Savings',
         Gifts: 'Gifts',
         Entertainment: 'Entertainment',
+        Taxes: 'Taxes',
+        Fees: 'Fees',
 
         //Budget
-        setBudgetLabel:'Set a budget',
-        setBudgetButton:'Set budget',
+        setBudgetLabel: 'Set a budget',
+        setBudgetTypeLabel: 'Budget period',
+        setBudgetButton: 'Set budget',
+        selectBudgetTypeLabel: 'Select a budget period',
+        noMonthlyBudgetYetLabel: 'You haven\'t set a monthly budget yet',
+        noQuarterlyBudgetYetLabel: 'You haven\'t set a quarterly budget yet',
+        noYearlyBudgetYetLabel: 'You haven\'t set a yearly budget yet',
+        setBudgetNow:'Set it now',
         overspent:'Overspent',
         spent: 'spent',
         remaining: 'Remaining',
+        monthly: 'Monthly',
+        quarterly: 'Quarterly',
+        yearly: 'Yearly',
+        month: 'Month',
+        quarter: 'Quarter',
+        year: 'Year',
+        monthlyBudget: 'Monthly budget',
+        quarterlyBudget: 'Quarterly budget',
+        yearlyBudget: 'Yearly budget',
 
         //Home
         prod_desc1: 'Easily keep track of your expenses.',
@@ -87,10 +116,20 @@ export const translations = {
 
 
         // Dashboard Box Labels
+        monthlyTotal: 'Totale mensile', 
+        quarterlyTotal: 'Totale trimestrale',
+        yearlyTotal: 'Totale annuale',
         total: 'Totale',
         totalForCategory: 'totale', // Es: "cibo totale:"
         percentageOfTotal: '% del totale', // Es: "cibo % del totale:"
-        filter:'Filtra',
+        filterCategory: 'Filtra per categoria',
+        expensesFrom: 'Le tue spese dal',
+        to: 'al',
+        noMonthExpense: 'Nessuna spesa per il mese in corso',
+        noQuarterExpense: 'Nessuna spesa per il trimestre in corso',
+        noYearExpense: 'Nessuna spesa per l\' anno in corso',
+        noExpenseYet: 'Nessuna spesa trovata',
+        periodComparisonWarning: '(Il periodo di budget deve essere maggiore o uguale al periodo di spesa per mostrare il tracciamento)',
 
         // Dynamic Toggles & Actions
         selectLanguage:'Seleziona lingua',
@@ -99,8 +138,10 @@ export const translations = {
         ok: 'Ok',
         add: 'Aggiungi',
         edit: 'Modfica',
+        cancel: 'Annulla',
         closeEdit: 'Annulla',
-        save:'Salva',
+        save: 'Salva',
+        selectExpensePeriod : 'Seleziona un periodo per le tue spese',
 
         //expense fields
         name:'Nome',
@@ -124,14 +165,30 @@ export const translations = {
         Savings: 'Risparmi',
         Gifts: 'Regali',
         Entertainment: 'Intrattenimento',
+        Taxes: 'Tasse',
+        Fees: 'Commissioni',
 
         //Budget
-        setBudgetLabel:'Imposta un budget',
-        setBudgetButton:'Imposta',
+        setBudgetLabel: 'Imposta un budget',
+        setBudgetTypeLabel: 'Tipo budget',
+        setBudgetButton: 'Imposta',
+        selectBudgetTypeLabel: 'Seleziona un periodo per il budget',
+        noMonthlyBudgetYetLabel: 'Non hai ancora impostato un budget mensile',
+        noQuarterlyBudgetYetLabel: 'Non hai ancora impostato un budget trimestrale',
+        noYearlyBudgetYetLabel: 'Non hai ancora impostato un budget annuale',
+        setBudgetNow:'Impostalo ora',
         overspent:'Oltre il budget',
         spent:'speso',
         remaining: 'Rimanente',
-
+        monthly: 'Mensile',
+        quarterly: 'Trimestrale',
+        yearly: 'Annuale',
+        month: 'Mese',
+        quarter: 'Trimestre',
+        year: 'Anno',
+        monthlyBudget: 'Budget mensile',
+        quarterlyBudget: 'Budget trimestrale',
+        yearlyBudget: 'Budget annuale',
         //Home
         prod_desc1: 'Tieni traccia delle tue spese facilmente.',
         prod_desc2: 'Imposta un budget per le tue spese.',

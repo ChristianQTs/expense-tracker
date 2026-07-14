@@ -26,7 +26,7 @@ export async function login(request: FastifyRequest<{Body : AuthBody}>, reply : 
 
         const { username, password } = request.body
 
-        const user = await prisma.users.findUnique({ where: { username }, select: { id: true, username: true, hashed_password : true, budget : true } })
+        const user = await prisma.users.findUnique({ where: { username }, select: { id: true, username: true, hashed_password : true, monthly_budget : true, quarterly_budget:true, yearly_budget:true } })
 
         if (!user) return reply.code(401).send({  message: 'Invalid credentials' })
 
@@ -52,7 +52,7 @@ export async function login(request: FastifyRequest<{Body : AuthBody}>, reply : 
             maxAge: 900
         })
         
-        return { user: { id: user.id, username: user.username, budget: user.budget } }
+        return { user: { id: user.id, username: user.username, monthlyBudget: user.monthly_budget, quarterlyBudget : user.quarterly_budget, yearlyBudget : user.yearly_budget } }
         
     } catch (err) {
 
@@ -124,7 +124,7 @@ export async function getMe(request: FastifyRequest, reply: FastifyReply) {
     try {
         const user = await prisma.users.findUnique({
             where: { id: request.user!.id },
-            select: {id:true, username:true, budget:true}
+            select: {id:true, username:true, monthly_budget:true, quarterly_budget:true, yearly_budget: true}
         })
 
         if (!user) return reply.code(401).send({ message: 'Invalid credentials' })

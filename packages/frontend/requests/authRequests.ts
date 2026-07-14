@@ -1,4 +1,4 @@
-import { fetchApi } from '../fetchWrapper.js'
+import { fetchApi } from '../utilities/fetchWrapper.js'
 import type { RegisterResponse, LoginResponse, AuthenticatedUser } from '@expense-tracker/shared'
 export async function makeRegisterRequest(username : string, password:string):Promise<RegisterResponse> {
 

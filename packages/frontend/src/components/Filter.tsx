@@ -13,7 +13,7 @@ export function Filter({ expenses, filter, setFilter }: FilterProps) {
     const categories = [...new Set(expenses.map((e:any) => e.category))]
     return (
         <div className='flex items-center justify-center gap-2.5 py-5'>
-            <label htmlFor='filter'>{t('filter') }: </label>
+            <label className='text-gray-600 font-medium text-m' htmlFor='filter'>{t('filterCategory') }: </label>
             <select className={ inputStyle } id='filter' name='filter' value={filter} onChange={e => setFilter(e.target.value)}>
                 <option value='all'>{t('all')}</option>
                 {

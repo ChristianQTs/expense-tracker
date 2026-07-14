@@ -1,5 +1,4 @@
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { cookieConfig } from '../controllers/authControllers.js'
 import { redisClient } from '../../redis/redisClient.js'
 import jwt from 'jsonwebtoken'
 import 'dotenv/config'
