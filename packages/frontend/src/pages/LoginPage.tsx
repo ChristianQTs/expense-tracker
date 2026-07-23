@@ -1,4 +1,5 @@
 import { useAuth } from '../authContext.jsx'
+import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../language/LanguageContext.js'
 import { useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
@@ -40,6 +41,11 @@ export function LoginPage() {
 
     return (
         <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4'>
+            <Helmet>
+                <title>{t('loginButton')}</title>
+                <meta name="description" content='Log in to access your personal expense tracker dashboard.' />
+                <link rel="canonical" href="https://expense-tracker-qt.vercel.app/login" />
+            </Helmet>
             <LanguageSelect/>
             <a href={`${window.location.origin}/home`} className='mb-2 text-4xl md:text-5xl font-bold text-blue-700 text-center transition duration-300 hover:scale-110'>{t('pageTitle')}</a>
             <h2 className='mb-8 text-xl md:text-2xl font-semibold text-gray-700'>{t('login')}</h2>

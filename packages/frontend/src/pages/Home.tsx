@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../authContext.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
 import { LanguageSelect } from '../language/languageSelect.jsx'
@@ -18,6 +19,12 @@ export function Home() {
     const {t} = useLanguage()
     return (
         <div className='flex flex-col min-h-screen bg-gray-50/50'>
+            <Helmet>
+                <title>{t('pageTitle')}</title>
+                <meta name="google-site-verification" content="CrP1LAbfIxBrvD8w4cyzDQC_b9HascS4fIXEb5BFimU" />
+                <meta name="description" content={t('slogan')} />
+                <link rel="canonical" href="https://expense-tracker-qt.vercel.app/home" />
+            </Helmet>
             <nav className='flex flex-col md:flex-row gap-3 justify-center p-4 items-center border border-gray-200 w-full bg-gray-100'>
                 <a href={`${window.location.origin}/home`} className='mb-2 text-center text-4xl font-bold text-blue-700 transition duration-300 hover:scale-110'>{t('pageTitle')}</a>
                 {!user ? <div className='flex flex-wrap justify-center gap-3 md:ml-auto'>

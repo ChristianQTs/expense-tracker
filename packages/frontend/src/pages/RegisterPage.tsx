@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../authContext.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
 import { useNavigate, Link } from 'react-router-dom'
@@ -38,6 +39,11 @@ export function RegisterPage() {
 
     return (
         <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4'>
+            <Helmet>
+                <title>{t('register')}</title>
+                <meta name="description" content='Create a free account to start tracking your expenses and budgeting today.' />
+                <link rel="canonical" href="https://expense-tracker-qt.vercel.app/register" />
+            </Helmet>
         <LanguageSelect/>
             <a href={`${window.location.origin}/home`} className='mb-2 text-4xl md:text-5xl font-bold text-blue-700 text-center transition duration-300 hover:scale-110'>{t('pageTitle')}</a>
             <h2 className='mb-8 text-xl md:text-2xl font-semibold text-gray-700'>{t('register')}</h2>

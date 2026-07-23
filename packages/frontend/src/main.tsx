@@ -1,6 +1,7 @@
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, Navigate, RouterProvider, Outlet } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { AuthProvider, useAuth } from './authContext.jsx'
 import { LanguageProvider} from './language/LanguageContext.js'
 import './style.css'
@@ -72,10 +73,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <LanguageProvider>
-            <AuthProvider>
-                <RouterProvider router={router} />
-            </AuthProvider>
-        </LanguageProvider>
+        <HelmetProvider>
+            <LanguageProvider>
+                <AuthProvider>
+                    <RouterProvider router={router} />
+                </AuthProvider>
+            </LanguageProvider>
+        </HelmetProvider>
     </StrictMode>,
 )

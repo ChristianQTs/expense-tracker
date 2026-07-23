@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /expenses
+Disallow: /api/	
+Sitemap: https://expense-tracker-qt.vercel.app/sitemap.xml

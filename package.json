@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "react-helmet-async": "^3.0.0",
     "redis-cli": "^2.1.2"
   }
 }
