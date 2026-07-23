@@ -21,7 +21,6 @@ export function Home() {
         <div className='flex flex-col min-h-screen bg-gray-50/50'>
             <Helmet>
                 <title>{t('pageTitle')}</title>
-                <meta name="google-site-verification" content="CrP1LAbfIxBrvD8w4cyzDQC_b9HascS4fIXEb5BFimU" />
                 <meta name="description" content={t('slogan')} />
                 <link rel="canonical" href="https://expense-tracker-qt.vercel.app/home" />
             </Helmet>
