@@ -5,8 +5,8 @@
       "destination": "https://expense-tracker-production-776a.up.railway.app/:path*"
     },
     {
-      "source": "/((?!sitemap\\.xml|robots\\.txt|.*\\.(?:png|svg|jpg|jpeg|gif|css|js)$).* )",
-      "destination": "/"
+      "source": "/((?!api/|sitemap\\.xml|robots\\.txt).*)",
+      "destination": "/index.html"
     }
   ]
 }
