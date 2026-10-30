@@ -52,7 +52,7 @@ export async function login(request: FastifyRequest<{Body : AuthBody}>, reply : 
             maxAge: 900
         })
         
-        return { user: { id: user.id, username: user.username, monthlyBudget: user.monthly_budget, quarterlyBudget : user.quarterly_budget, yearlyBudget : user.yearly_budget } }
+        return { user: { id: user.id, username: user.username, monthly_budget: user.monthly_budget, quarterly_budget: user.quarterly_budget, yearly_budget: user.yearly_budget } }
         
     } catch (err) {
 

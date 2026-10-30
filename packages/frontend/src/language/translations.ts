@@ -16,7 +16,6 @@ export const translations = {
         alreadyHaveAccountQuestion: 'Already have an account?',
         confirm: 'Confirm',
         passwordMatch:'Passwords must match',
-        // Dashboard Box Labels
         monthlyTotal: 'Monthly total',
         quarterlyTotal: 'Quarterly total',
         yearlyTotal: 'Yearly total',
@@ -29,8 +28,10 @@ export const translations = {
         noMonthExpense : 'No expense for the current month',
         noQuarterExpense : 'No expense for the current quarter',
         noYearExpense: 'No expense for the current year',
-        noExpenseYet: 'No expense yet',
+        noExpenseYet: 'No expense found',
         periodComparisonWarning: '(Budget period must be larger than or equal to the expense period to show tracking)',
+        selectPersonalizedPeriodLabel: 'Select a custom date:',
+        date: 'Date',
 
         // Dynamic Toggles & Actions
         selectLanguage:'Select a language',
@@ -130,6 +131,8 @@ export const translations = {
         noYearExpense: 'Nessuna spesa per l\' anno in corso',
         noExpenseYet: 'Nessuna spesa trovata',
         periodComparisonWarning: '(Il periodo di budget deve essere maggiore o uguale al periodo di spesa per mostrare il tracciamento)',
+        selectPersonalizedPeriodLabel: 'Seleziona un periodo personalizzato:',
+        date: 'Data',
 
         // Dynamic Toggles & Actions
         selectLanguage:'Seleziona lingua',

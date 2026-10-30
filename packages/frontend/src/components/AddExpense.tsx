@@ -2,6 +2,8 @@ import { useState } from 'react'
 import type { AddBody } from '@expense-tracker/shared'
 import { Button, inputStyle } from './styling comps/Button.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 interface addExpenseProps {
     onAdd: (data: AddBody) => void;
     children:any
@@ -12,6 +14,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
     const [nameInput, setNameInput] = useState<string>('')
     const [amountInput, setAmountInput] = useState<number>()
     const [categoryInput, setCategoryInput] = useState<string>('')
+    const [dateInput, setDateInput] = useState<Date>(new Date)
     const {t} = useLanguage()
 
     const handleAdd = (e:any) => {
@@ -20,7 +23,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
             window.alert('Please select all fields.')
             return
         }
-        onAdd({name:nameInput, amount:amountInput, category:categoryInput})
+        onAdd({ name: nameInput, amount: amountInput, category: categoryInput, date: dateInput })
         setNameInput('')
         setAmountInput(0)
         setCategoryInput('')
@@ -61,12 +64,23 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                         <option value='Fees'>{t('Fees')}</option>
                     </select>
                 </div>
+                <div className='flex items-center gap-2 w-full md:w-auto'>
+                    <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='date'>{t('date')}: </label>
+                    <DatePicker
+
+                        selected={dateInput}
+                        onChange={(update: Date) => { setDateInput(update); console.log(update)}}
+                        isClearable={true}
+                        placeholderText={new Date().toLocaleDateString()}
+                        className="p-2 border border-gray-300 rounded-md text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 cursor-pointer"
+                    />
+                </div>
                 <div className='flex items-end gap-2 w-full md:w-auto mt-2 md:mt-0'>
                     <Button
                         className='flex-1 md:w-auto max-md:px-2 max-md:py-0.5 max-md:text-s max-md:font-medium'
                         title='Add new expense'
                         type="submit"
-                        isDisabled={!nameInput || !amountInput || !categoryInput || amountInput <= 0}
+                        isDisabled={!nameInput || !amountInput || !categoryInput || amountInput <= 0 || !dateInput}
                     >
                         {t('add')}
                     </Button>

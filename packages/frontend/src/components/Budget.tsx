@@ -8,23 +8,25 @@ interface BudgetProps {
     user: AuthenticatedUser;
     onSetBudget: (budget: number, type: 'monthly' | 'quarterly' | 'yearly') => void;
     onDeleteBudget: (type: 'monthly' | 'quarterly' | 'yearly') => void;
-    expensePeriod: 'monthly' | 'quarterly' | 'yearly' | 'all'
+    expensePeriod: 'monthly' | 'quarterly' | 'yearly' | 'all'|'custom'
 }
 
 const periodWeights = {
     monthly: 1,
     quarterly: 2,
     yearly: 3,
-    all: 4
+    all: 4,
+    custom : null
 }
+
 export function Budget({ total, user, onSetBudget, onDeleteBudget, expensePeriod }: BudgetProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [budgetInput, setBudgetInput] = useState(0)
     const [budgetType, setBudgetType] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly')
     const { t } = useLanguage()
     const budget = budgetType === 'monthly' ? Number(user.monthly_budget || 0) : budgetType === 'quarterly' ? Number(user.quarterly_budget || 0) : Number(user.yearly_budget || 0);
-    const canCalculateBudget = periodWeights[budgetType] >= periodWeights[expensePeriod]
-
+    const canCalculateBudget = periodWeights[budgetType] >= periodWeights[expensePeriod]!
+    console.log(budget)
 
     const handleAdd = async () => {
         if (!budgetInput || budgetInput <= 0 || !budgetType) return
@@ -50,28 +52,28 @@ export function Budget({ total, user, onSetBudget, onDeleteBudget, expensePeriod
                     <button
                         type="button"
                         onClick={() => setBudgetType('monthly')}
-                        className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-6 font-semibold ${budgetType === 'monthly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}
+                        className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 px-6 font-semibold h-12 ${budgetType === 'monthly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}
                     >
                         {t('month')}
                     </button>
                     <button
                         type="button"
                         onClick={() => setBudgetType('quarterly')}
-                        className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-6 font-semibold ${budgetType === 'quarterly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}
+                        className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 px-6 font-semibold ${budgetType === 'quarterly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}
                     >
                         {t('quarter')}
                     </button>
                     <button
                         type="button"
                         onClick={() => setBudgetType('yearly')}
-                        className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-6 font-semibold ${budgetType === 'yearly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}
+                        className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 px-6 font-semibold ${budgetType === 'yearly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}
                     >
                         {t('year')}
                     </button>
                 </div>
             </div>
 
-            {budget > 0 ? (
+            {budget > 0 && budget !== null? (
                 <div className='flex flex-wrap items-center justify-center gap-3 p-3 bg-blue-50/80 border border-blue-100 rounded-lg text-sm md:text-base font-medium text-blue-900 shadow-sm w-full md:w-auto'>
 
                     <div className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-export function getDateRange(window: 'monthly' | 'quarterly' | 'yearly' | 'all') {
+export function getDateRange(window: 'monthly' | 'quarterly' | 'yearly' | 'all' | 'custom') {
 
     const now = new Date()
     const month = now.getMonth()

@@ -3,12 +3,14 @@ export type ClientExpense = Omit<expenses, 'user_id' | 'amount'> & { amount: num
 export interface AddBody {
     name: string,
     amount: number,
-    category: string
+    category: string,
+    date: Date
 }
 export interface UpdateBody {
     name?: string,
     amount?: number,
-    category?: string
+    category?: string,
+    date?: Date
 }
 
 export interface ExpenseParams {

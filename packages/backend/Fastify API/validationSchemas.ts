@@ -16,9 +16,10 @@ export const POST_SCHEMA = {
     properties: {
         name: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' },
         amount: { type: 'number', minimum: 1 },
-        category: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' }
+        category: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' },
+        date: { type: 'string', format: 'date-time' }
     },
-    required: ['name', 'amount', 'category']
+    required: ['name', 'amount', 'category', 'date']
 }
 //PATCH REQUESTS SCHEMA:
 export const PATCH_SCHEMA = {
@@ -27,7 +28,7 @@ export const PATCH_SCHEMA = {
     properties: {
         name: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' },
         amount: { type: 'number', minimum: 1 },
-        category: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' }
+        category: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' },
     },
     minProperties: 1,
     additionalProperties : false

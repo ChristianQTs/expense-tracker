@@ -10,7 +10,7 @@ export interface RegisterResponse {
 }
 export interface LoginResponse {
     user: AuthenticatedUser,
-    token:string
 }
+
 
 

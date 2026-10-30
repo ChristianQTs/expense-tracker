@@ -26,11 +26,11 @@ export async function getExpenses(start? : string, end?: string): Promise<Client
     return response
 }
 
-export async function addExpense({ name, amount, category }: AddBody): Promise<ClientExpense> {
+export async function addExpense({ name, amount, category, date }: AddBody): Promise<ClientExpense> {
 
     const response = await fetchApi<ClientExpense>('/expenses', {
         method: 'POST',
-        body: { name, amount, category },
+        body: { name, amount, category, date },
         
     })
     return response

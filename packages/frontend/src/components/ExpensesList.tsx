@@ -5,7 +5,7 @@ interface ListProps {
     expenses: ClientExpense[];
     onDelete: (id:number) => void;
     onUpdate: (id: number, data: UpdateBody) => void;
-    period: 'monthly' | 'quarterly' | 'yearly' | 'all'
+    period: 'monthly' | 'quarterly' | 'yearly' | 'all'|'custom'
 }
 export function ExpensesList({ expenses, onDelete, onUpdate, period }: ListProps) { 
 

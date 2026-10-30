@@ -34,10 +34,11 @@ export async function addExpense(request: FastifyRequest<{Body : AddBody}>, repl
         if (!request.user) return reply.code(401).send({ message: 'Unauthorized' })
         const user_id = request.user.id
 
-        const { name, amount, category } = request.body
+    let { name, amount, category, date } = request.body
+        if(!date) date = new Date
 
     const newExpense : expenses = await prisma.expenses.create({
-       data: {user_id, name, amount, category}
+        data: { user_id, name, amount, category, created_at: date }
     })
 
     return reply.code(201).send(newExpense)

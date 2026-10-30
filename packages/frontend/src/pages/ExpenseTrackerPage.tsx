@@ -1,9 +1,10 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LanguageSelect } from '../language/languageSelect.jsx'
 import { useLanguage } from '../language/LanguageContext.js'
 import { AddExpense } from '../components/AddExpense.jsx'
 import { ExpensesList } from '../components/ExpensesList.jsx'
+import { ExpenseDateFilter } from '../components/expenseCustomPeriodFilter.jsx'
 import { Filter } from '../components/Filter.jsx'
 import { Budget } from '../components/Budget.jsx'
 import { getExpenses, addExpense, deleteExpense, updateExpense, setUserBudget, deleteUserBudget } from '../../requests/expensesRequests.js'
@@ -19,22 +20,26 @@ export function ExpenseTrackerPage() {
     const [error, setError] = useState<string>('')
     const [expenses, setExpenses] = useState<ClientExpense[]>([])
     const [filter, setFilter] = useState<string>('all')
-    const [period, setPeriod] = useState<'monthly' | 'quarterly' | 'yearly' | 'all'>('monthly')
+    const [period, setPeriod] = useState<'monthly' | 'quarterly' | 'yearly' | 'all' | 'custom'>('monthly')
+    const [customRange, setCustomRange] = useState<{ start?: string; end?: string }>({})
+    const { start, end } = period === 'custom' ? customRange : getDateRange(period)
     const isFiltered: boolean = filter !== 'all'
     const filteredExpenses: ClientExpense[] = isFiltered ? expenses.filter(e => e.category === filter) : expenses
     const [showBudget, setShowBudget] = useState<boolean>(false)
     const {t, language} = useLanguage()
     const { user, updateUser, logout } = useAuth()
     const navigate = useNavigate()
-    const { start, end } = getDateRange(period)
     const [cache, setCache] = useState<Record<string, ClientExpense[] | null>>({
         monthly: null,
         quarterly: null,
         yearly: null,
         all: null
     })
+   
 
     useEffect(() => {
+        if (period === 'custom') return
+
         if (cache[period] !== null) {
             setExpenses(cache[period]!)
             return
@@ -72,16 +77,27 @@ export function ExpenseTrackerPage() {
         }
     }
 
-    const handleAddExpense = async ({ name, amount, category }: AddBody) => {
+    const handleAddExpense = async ({ name, amount, category, date }: AddBody) => {
         setError('')
         try {
-            const res = await addExpense({ name, amount, category })
-            setExpenses(prev => [...prev, res])
+            const res = await addExpense({ name, amount, category, date })
+            const expenseTimestamp = new Date(res.created_at).getTime()
+            const isInCurrentPeriod = period === 'all' || (
+                start !== undefined && end !== undefined &&
+                expenseTimestamp >= Date.parse(start) && expenseTimestamp <= Date.parse(end)
+            )
+            if (isInCurrentPeriod) setExpenses(prev => [...prev, res])
+
+            const updatePeriodCache = (cachePeriod: 'monthly' | 'quarterly' | 'yearly' | 'all', cachedExpenses: ClientExpense[] | null) => {
+                if (period !== cachePeriod) return null
+                if (!isInCurrentPeriod || cachedExpenses === null) return cachedExpenses
+                return [...cachedExpenses, res]
+            }
             setCache(prev => ({
-                monthly: period === 'monthly' ? [...prev.monthly!, res] : null,
-                quarterly: period === 'quarterly' ? [...prev.quarterly!, res] : null,
-                yearly: period === 'yearly' ? [...prev.yearly!, res] : null,
-                all: period === 'all' ? [...prev.all!, res] : null,
+                monthly: updatePeriodCache('monthly', prev.monthly),
+                quarterly: updatePeriodCache('quarterly', prev.quarterly),
+                yearly: updatePeriodCache('yearly', prev.yearly),
+                all: updatePeriodCache('all', prev.all),
             }))
 
         } catch (err: any) {
@@ -180,14 +196,36 @@ export function ExpenseTrackerPage() {
                {error !== '' ? <Button onClick={() => setError('')}>Ok</Button> : null}
             </div>
             {showBudget && <Budget total={totalExpense} user={user!} onSetBudget={handleAddBudget} onDeleteBudget={handleDeleteBudget} expensePeriod={period} />}
-            <div className='flex flex-col items-center gap-2 w-full'>
+            <div className='flex flex-wrap gap-3 md:gap-6 justify-center items-center'>
                 <p className='text-gray-600 font-medium text-m'>{t('selectExpensePeriod')}: </p>
-                <div className='flex gap-3 md:gap-12 justify-center w-full'>
-                    <button onClick={() => setPeriod('monthly')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-4 md:px-6 font-semibold ${period === 'monthly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('month')}</button>
-                    <button onClick={() => setPeriod('quarterly')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-4 md:px-6 font-semibold ${period === 'quarterly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('quarter')}</button>
-                    <button onClick={() => setPeriod('yearly')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-4 md:px-6 font-semibold ${period === 'yearly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('year')}</button>
-                    <button onClick={() => setPeriod('all')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm px-4 md:px-6 font-semibold ${period === 'all' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('all')}</button>
-                 </div>
+                <div className='flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center w-full'>
+                    <div className='flex gap-3 md:gap-12 items-center justify-center'>
+                        <button onClick={() => setPeriod('monthly')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 md:px-6 font-semibold ${period === 'monthly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('month')}</button>
+                        <button onClick={() => setPeriod('quarterly')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 md:px-6 font-semibold ${period === 'quarterly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('quarter')}</button>
+                        <button onClick={() => setPeriod('yearly')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 md:px-6 font-semibold ${period === 'yearly' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('year')}</button>
+                        <button onClick={() => setPeriod('all')} className={`hover:scale-110 duration-200 cursor-pointer border-2 border-cyan-600 border-solid rounded-sm h-fit py-1.5 px-4 md:px-6 font-semibold ${period === 'all' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600'}`}>{t('all')}</button>
+                    </div>
+                    <ExpenseDateFilter
+
+                        onApplyFilter={async (start, end) => {
+                            const startIso = start.toISOString()
+                            const endIso = end.toISOString()
+                            try {
+                                const customDateExpenses = await getExpenses(startIso, endIso)
+                                setExpenses(customDateExpenses)
+                                setCustomRange({ start: startIso, end: endIso })
+                                setPeriod('custom')
+                            } catch (err: any) {
+                                setError(err.message || 'Failed to fetch custom date expenses')
+                            }
+                        }}
+
+                        onClearFilter={() => {
+                            setCustomRange({})
+                            setPeriod('monthly')
+                        }}
+                    />
+                </div>
             </div>
             {expenses.length !== 0 && <Filter expenses={expenses} filter={filter} setFilter={setFilter} />}
             {(expenses.length !== 0 && period !== 'all') && 

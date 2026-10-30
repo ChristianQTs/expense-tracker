@@ -16,11 +16,23 @@ interface AuthProviderProps {
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+function readStoredUser(): AuthenticatedUser | null {
+    const storedUser = localStorage.getItem('user')
+    if (!storedUser || storedUser === 'undefined') {
+        if (storedUser) localStorage.removeItem('user')
+        return null
+    }
+
+    try {
+        return JSON.parse(storedUser) as AuthenticatedUser
+    } catch {
+        localStorage.removeItem('user')
+        return null
+    }
+}
+
 export function AuthProvider({ children }:AuthProviderProps) {
-    const [user, setUser] = useState<AuthenticatedUser | null>(() => {
-        const storedUser = localStorage.getItem('user')
-        return storedUser ? JSON.parse(storedUser) : null
-    })
+    const [user, setUser] = useState<AuthenticatedUser | null>(readStoredUser)
 
 
     const login = async (username:string, password:string) => {
@@ -28,9 +40,10 @@ export function AuthProvider({ children }:AuthProviderProps) {
         try {
 
             const res = await makeLoginRequest(username, password)
-                setUser(res.user)
-                localStorage.setItem('user', JSON.stringify(res.user))
-                return { success: true }
+            if (!res.user) throw new Error('Login response did not include a user.')
+            setUser(res.user)
+            localStorage.setItem('user', JSON.stringify(res.user))
+            return { success: true }
 
         } catch (err:any) {
             return {success : false, message : err.message}
