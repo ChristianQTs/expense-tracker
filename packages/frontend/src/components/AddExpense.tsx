@@ -14,8 +14,8 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
     const [nameInput, setNameInput] = useState<string>('')
     const [amountInput, setAmountInput] = useState<number>()
     const [categoryInput, setCategoryInput] = useState<string>('')
-    const [dateInput, setDateInput] = useState<Date>(new Date)
-    const {t} = useLanguage()
+    const [dateInput, setDateInput] = useState<Date | null>(new Date())
+    const {t,language} = useLanguage()
 
     const handleAdd = (e:any) => {
         e.preventDefault()
@@ -23,7 +23,12 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
             window.alert('Please select all fields.')
             return
         }
-        onAdd({ name: nameInput, amount: amountInput, category: categoryInput, date: dateInput })
+                onAdd({
+            name: nameInput,
+            amount: amountInput,
+            category: categoryInput,
+            ...(dateInput ? { date: dateInput } : {}),
+        })
         setNameInput('')
         setAmountInput(0)
         setCategoryInput('')
@@ -44,7 +49,9 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                 <div className='flex items-center gap-2 w-full md:w-auto'>
                     <label className='px-1 w-20 shrink-0 md:w-auto' htmlFor='category'>{t('category') }: </label>
                     <select className={`${inputStyle} w-full md:w-auto`} id='category' name='category' value={categoryInput} onChange={e => setCategoryInput(e.target.value)}>
-                        <option value=''>{t('category')}</option>
+                        <option value='' disabled selected hidden>
+                            
+                        </option>
                         <option value='Housing'>{t('Housing')}</option>
                         <option value='Transportation'>{t('Transportation')}</option>
                         <option value='Food'>{t('Food')}</option>
@@ -69,8 +76,9 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                     <DatePicker
 
                         selected={dateInput}
-                        onChange={(update: Date) => { setDateInput(update); console.log(update)}}
+                        onChange={(update: Date | null) => { setDateInput(update); console.log(update)}}
                         isClearable={true}
+                        dateFormat={language === 'en' ? "MMM d, yyyy": "d MMM, yyyy"}
                         placeholderText={new Date().toLocaleDateString()}
                         className="p-2 border border-gray-300 rounded-md text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 cursor-pointer"
                     />
@@ -80,7 +88,7 @@ export function AddExpense({ onAdd, children }:addExpenseProps) {
                         className='flex-1 md:w-auto max-md:px-2 max-md:py-0.5 max-md:text-s max-md:font-medium'
                         title='Add new expense'
                         type="submit"
-                        isDisabled={!nameInput || !amountInput || !categoryInput || amountInput <= 0 || !dateInput}
+                        isDisabled={!nameInput || !amountInput || !categoryInput || amountInput <= 0}
                     >
                         {t('add')}
                     </Button>

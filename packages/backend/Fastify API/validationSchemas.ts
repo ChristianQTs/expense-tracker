@@ -19,7 +19,7 @@ export const POST_SCHEMA = {
         category: { type: 'string', minLength: 1, pattern: '^(?=.*[a-zA-Z]).+$' },
         date: { type: 'string', format: 'date-time' }
     },
-    required: ['name', 'amount', 'category', 'date']
+    required: ['name', 'amount', 'category']
 }
 //PATCH REQUESTS SCHEMA:
 export const PATCH_SCHEMA = {

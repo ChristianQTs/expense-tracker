@@ -4,7 +4,7 @@ export interface AddBody {
     name: string,
     amount: number,
     category: string,
-    date: Date
+    date?: Date
 }
 export interface UpdateBody {
     name?: string,

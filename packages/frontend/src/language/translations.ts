@@ -32,6 +32,7 @@ export const translations = {
         periodComparisonWarning: '(Budget period must be larger than or equal to the expense period to show tracking)',
         selectPersonalizedPeriodLabel: 'Select a custom date:',
         date: 'Date',
+        customPeriod:'Custom period',
 
         // Dynamic Toggles & Actions
         selectLanguage:'Select a language',
@@ -43,7 +44,10 @@ export const translations = {
         cancel:'Cancel',
         closeEdit: 'Close Edit',
         save: 'Save',
+        setPeriod: 'Set',
+        resetPeriod:'Reset',
         selectExpensePeriod: 'Select an expense period',
+        selectStartEndDateExpenses: 'Select start & end dates',
 
         //expense fields
         name:'Name',
@@ -133,6 +137,7 @@ export const translations = {
         periodComparisonWarning: '(Il periodo di budget deve essere maggiore o uguale al periodo di spesa per mostrare il tracciamento)',
         selectPersonalizedPeriodLabel: 'Seleziona un periodo personalizzato:',
         date: 'Data',
+        customPeriod: 'Periodo personalizzato',
 
         // Dynamic Toggles & Actions
         selectLanguage:'Seleziona lingua',
@@ -144,7 +149,10 @@ export const translations = {
         cancel: 'Annulla',
         closeEdit: 'Annulla',
         save: 'Salva',
-        selectExpensePeriod : 'Seleziona un periodo per le tue spese',
+        setPeriod: 'Applica',
+        resetPeriod: 'Cancella',
+        selectExpensePeriod: 'Seleziona un periodo per le tue spese',
+        selectStartEndDateExpenses: 'Seleziona data di inizio &  data finale',
 
         //expense fields
         name:'Nome',

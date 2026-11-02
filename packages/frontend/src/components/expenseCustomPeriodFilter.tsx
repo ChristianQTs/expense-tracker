@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLanguage } from '../language/LanguageContext.js'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -11,6 +12,7 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
 
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
     const [startDate, endDate] = dateRange;
+    const {t,language} = useLanguage()
 
     const handleSetClick = () => {
 
@@ -32,7 +34,7 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
         <div className="flex flex-wrap items-end gap-3 p-4 bg-gray-100 rounded-lg border border-gray-200">
             <div className="flex flex-col">
                 <label className="mb-1 text-sm font-semibold text-gray-700">
-                    Filter Period
+                    {t('customPeriod')}
                 </label>
                 <DatePicker
 
@@ -43,8 +45,8 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
                         setDateRange(update);
                     }}
                     isClearable={true}
-                    placeholderText="Select start & end dates"
-                    dateFormat="MMM d, yyyy"
+                    placeholderText={t('selectStartEndDateExpenses')}
+                    dateFormat={language === 'en' ? "MMM d, yyyy": "d MMM, yyyy"}
                     className="p-2 border border-gray-300 rounded-md text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 cursor-pointer"
                 />
             </div>
@@ -54,7 +56,7 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
                 disabled={!startDate || !endDate}
                 className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-900 transition duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
-                Set
+                {t('setPeriod')}
             </button>
 
             {(startDate || endDate) && (
@@ -62,7 +64,7 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
                     onClick={handleClear}
                     className="px-3 py-2 text-sm text-gray-600 hover:text-red-600 font-medium transition"
                 >
-                    Reset
+                    {t('resetPeriod')}
                 </button>
             )}
         </div>
