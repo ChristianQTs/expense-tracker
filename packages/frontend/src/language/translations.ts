@@ -47,7 +47,7 @@ export const translations = {
         setPeriod: 'Set',
         resetPeriod:'Reset',
         selectExpensePeriod: 'Select an expense period',
-        selectStartEndDateExpenses: 'Select start & end dates',
+        selectStartEndDateExpenses: 'Select date range',
 
         //expense fields
         name:'Name',
@@ -152,7 +152,7 @@ export const translations = {
         setPeriod: 'Applica',
         resetPeriod: 'Cancella',
         selectExpensePeriod: 'Seleziona un periodo per le tue spese',
-        selectStartEndDateExpenses: 'Seleziona data di inizio &  data finale',
+        selectStartEndDateExpenses: 'Intervallo date',
 
         //expense fields
         name:'Nome',

@@ -31,9 +31,9 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
     };
 
     return (
-        <div className="flex flex-wrap items-end gap-3 p-4 bg-gray-100 rounded-lg border border-gray-200">
-            <div className="flex flex-col">
-                <label className="mb-1 text-sm font-semibold text-gray-700">
+        <div className="flex flex-nowrap text-s items-end gap-1 p-1.5 bg-gray-100 rounded-lg border border-gray-200">
+            <div className="flex min-w-0 flex-col">
+                <label className="mb-1 whitespace-nowrap items-center font-semibold text-gray-700">
                     {t('customPeriod')}
                 </label>
                 <DatePicker
@@ -47,14 +47,14 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
                     isClearable={true}
                     placeholderText={t('selectStartEndDateExpenses')}
                     dateFormat={language === 'en' ? "MMM d, yyyy": "d MMM, yyyy"}
-                    className="p-2 border border-gray-300 rounded-md text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 cursor-pointer"
+                    className="w-44 sm:w-48 px-2 py-1.5 border border-gray-300 rounded-md text-xs text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
                 />
             </div>
 
             <button
                 onClick={handleSetClick}
                 disabled={!startDate || !endDate}
-                className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-900 transition duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="shrink-0 whitespace-nowrap px-1.5 py-1.5 bg-blue-700 text-white text-xs font-semibold rounded-md hover:bg-blue-900 transition duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
                 {t('setPeriod')}
             </button>
@@ -62,7 +62,7 @@ export function ExpenseDateFilter({ onApplyFilter, onClearFilter }: ExpenseDateF
             {(startDate || endDate) && (
                 <button
                     onClick={handleClear}
-                    className="px-3 py-2 text-sm text-gray-600 hover:text-red-600 font-medium transition"
+                    className="shrink-0 whitespace-nowrap px-1 py-1.5 text-xs text-gray-600 hover:text-red-600 font-medium transition"
                 >
                     {t('resetPeriod')}
                 </button>
